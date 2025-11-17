@@ -1,0 +1,30 @@
+
+@import "tailwindcss";
+
+/* @theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+html,
+body {
+  @apply bg-white dark:bg-gray-950;
+
+  @media (prefers-color-scheme: dark) {
+    color-scheme: dark;
+  }
+} */
+/* app.css — append this */
+.h1 { font-size: 24px; font-weight: 700; line-height: 1.2; }
+.h2 { font-size: 20px; font-weight: 600; line-height: 1.25; }
+.body { font-size: 16px; font-weight: 400; line-height: 1.5; }
+
+/* neutral section background so cards (white) pop */
+.section-bg { background-color: #fafaf8; }
+
+/* 1:1 aspect ratio keeper (used for product thumbnail) */
+.aspect-square-keeper { position: relative; width: 100%; padding-top: 100%; }
+.aspect-square-content { position: absolute; inset: 0; display:flex; align-items:center; justify-content:center; }
+
+/* subtle image pop */
+.img-pop { box-shadow: 0 8px 24px rgba(16,24,40,0.06); border-radius: 0.6rem; }
