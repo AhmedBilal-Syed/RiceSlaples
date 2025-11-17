@@ -17,21 +17,28 @@ const Header = () => {
   return (
     <>
       {/* Top Bar */}
-      <div className="bg-[#6B8E23] text-white py-2 px-4 text-sm">
-        <div className="container mx-auto flex justify-between items-center">
-          <div className="flex space-x-6">
-            <span className="flex items-center space-x-2">
-              <FaPhone className="text-xs" />
-              <p>+2600 0500 2600</p>
-            </span>
-            <span className="flex items-center space-x-2">
-              <FaEnvelope className="text-xs" />
-              <p>Info@gmail.com</p>
-            </span>
-          </div>
-          <p className="font-medium">Summer sale discount 50% off</p>
-        </div>
+     <div className="bg-[#6B8E23] text-white py-2 px-3 sm:px-4 text-sm">
+  <div className="container mx-auto">
+    <div className="flex flex-col xs:flex-row justify-between items-center gap-1 xs:gap-4">
+      {/* Contact Info */}
+      <div className="flex flex-wrap justify-center xs:justify-start gap-3 xs:gap-6">
+        <span className="flex items-center space-x-1 xs:space-x-2 text-xs">
+          <FaPhone className="text-xs flex-shrink-0" />
+          <p className="whitespace-nowrap">+2600 0500 2600</p>
+        </span>
+        <span className="flex items-center space-x-1 xs:space-x-2 text-xs">
+          <FaEnvelope className="text-xs flex-shrink-0" />
+          <p className="whitespace-nowrap">Info@gmail.com</p>
+        </span>
       </div>
+      
+      {/* Sale Banner */}
+      <p className="font-medium text-xs xs:text-sm text-center xs:text-right whitespace-nowrap mt-1 xs:mt-0">
+        Summer sale 50% off
+      </p>
+    </div>
+  </div>
+</div>
 
       {/* Main Header */}
       <header className={`bg-white sticky top-0 z-50 transition-all ${scrolled ? "shadow-md" : ""}`}>
