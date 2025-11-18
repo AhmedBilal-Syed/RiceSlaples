@@ -7,6 +7,7 @@ import ProductCard, { defaultProducts } from "../Components/ProductCard";
 import DealOfTheDay, { defaultDealProducts } from "../Components/DealofTheDay";
 import BelowDealSection from "../Components/BelowDealSection";
 import type { Route } from "./+types/home";
+import { Link } from "react-router-dom";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -51,6 +52,23 @@ export default function Home() {
               />
             ))}
           </div>
+        </div>
+
+        <div className="text-center mt-12 lg:mt-16">
+          <Link
+            to="/categories"
+            className="inline-flex items-center justify-center bg-[#6B8E23] text-white font-semibold text-base px-8 py-4 rounded-lg transition-all duration-300 hover:bg-[#5A7A1A] focus:outline-none focus:ring-2 focus:ring-[#6B8E23] focus:ring-opacity-50"
+          >
+            ALL Products
+            <svg
+              className="w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-1"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </Link>
         </div>
       </section>
 

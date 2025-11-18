@@ -17,31 +17,31 @@ const Header = () => {
   return (
     <>
       {/* Top Bar */}
-     <div className="bg-[#6B8E23] text-white py-2 px-3 sm:px-4 text-sm">
-  <div className="container mx-auto">
-    <div className="flex flex-col xs:flex-row justify-between items-center gap-1 xs:gap-4">
-      {/* Contact Info */}
-      <div className="flex flex-wrap justify-center xs:justify-start gap-3 xs:gap-6">
-        <span className="flex items-center space-x-1 xs:space-x-2 text-xs">
-          <FaPhone className="text-xs flex-shrink-0" />
-          <p className="whitespace-nowrap">+2600 0500 2600</p>
-        </span>
-        <span className="flex items-center space-x-1 xs:space-x-2 text-xs">
-          <FaEnvelope className="text-xs flex-shrink-0" />
-          <p className="whitespace-nowrap">Info@gmail.com</p>
-        </span>
+      <div className="bg-[#6B8E23] text-white py-2 px-3 sm:px-4 text-sm">
+        <div className="container mx-auto">
+          <div className="flex flex-col xs:flex-row justify-between items-center gap-1 xs:gap-4">
+            {/* Contact Info */}
+            <div className="flex flex-wrap justify-center xs:justify-start gap-3 xs:gap-6">
+              <span className="flex items-center space-x-1 xs:space-x-2 text-xs">
+                <FaPhone className="text-xs flex-shrink-0" />
+                <p className="whitespace-nowrap">+2600 0500 2600</p>
+              </span>
+              <span className="flex items-center space-x-1 xs:space-x-2 text-xs">
+                <FaEnvelope className="text-xs flex-shrink-0" />
+                <p className="whitespace-nowrap">Info@gmail.com</p>
+              </span>
+            </div>
+            
+            {/* Sale Banner */}
+            <p className="font-medium text-xs xs:text-sm text-center xs:text-right whitespace-nowrap mt-1 xs:mt-0">
+              Summer sale 50% off
+            </p>
+          </div>
+        </div>
       </div>
-      
-      {/* Sale Banner */}
-      <p className="font-medium text-xs xs:text-sm text-center xs:text-right whitespace-nowrap mt-1 xs:mt-0">
-        Summer sale 50% off
-      </p>
-    </div>
-  </div>
-</div>
 
       {/* Main Header */}
-      <header className={`bg-white sticky top-0 z-50 transition-all ${scrolled ? "shadow-md" : ""}`}>
+      <header className={`bg-white sticky top-0 z-50 transition-all border-b border-[#E5E5E5] ${scrolled ? "shadow-md" : ""}`}>
         <div className="container mx-auto py-4">
           {/* Top Row */}
           <div className="flex items-center justify-between">
@@ -108,44 +108,7 @@ const Header = () => {
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:block border-t border-[#E5E5E5] mt-3">
-            <div className="flex justify-between items-center py-3">
-              {/* Menu Items */}
-              <div className="flex items-center space-x-8">
-                {[
-                  { path: "/", label: "HOME" },
-                  { path: "/products", label: "SHOP" },
-                  { path: "/categories", label: "COLLECTION" },
-                  { path: "/pages", label: "PAGES" },
-                  { path: "/blogs", label: "BLOGS" },
-                  { path: "/buy", label: "BUY VEGIST" }
-                ].map(item => (
-                  <NavLink
-                    key={item.path}
-                    to={item.path}
-                    className={({ isActive }) =>
-                      `text-[#333333] font-bold hover:text-[#6B8E23] transition-colors text-sm uppercase ${
-                        isActive ? "text-[#6B8E23]" : ""
-                      }`
-                    }
-                  >
-                    {item.label}
-                  </NavLink>
-                ))}
-              </div>
-
-              {/* Breadcrumb */}
-              {location.pathname !== "/" && (
-                <div className="text-sm text-[#696969]">
-                  <span className="opacity-70">Home</span>
-                  <span className="mx-2">/</span>
-                  <span className="text-[#333333] capitalize">
-                    {location.pathname.split("/")[1]}
-                  </span>
-                </div>
-              )}
-            </div>
-          </nav>
+         
 
           {/* Mobile Search */}
           <div className="lg:hidden px-4 pb-4 border-b border-[#E5E5E5] mt-3">

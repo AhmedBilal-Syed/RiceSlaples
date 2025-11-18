@@ -14,6 +14,17 @@ export interface Product {
   category?: string;
   inStock?: boolean;
   isFavorite?: boolean;
+  slug: string;
+  description: string;
+  weight: string;
+  ingredients: string;
+  nutritionalInfo: {
+    protein: string;
+    carbs: string;
+    fat: string;
+    fiber: string;
+  };
+  images: string[];
 }
 
 interface ProductCardProps {
@@ -43,7 +54,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
       {/* Image Section */}
       <div className="relative h-56 overflow-hidden rounded-t-lg">
-        <Link to={`/products/${product.id}`} className="block w-full h-full">
+        <Link to={`/products/${product.slug}`} className="block w-full h-full">
           <div className="w-full h-full flex items-center justify-center p-4 bg-white">
             <span
               className="text-7xl transition-transform duration-300 hover:scale-110"
@@ -121,7 +132,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         )}
 
         {/* Name */}
-        <Link to={`/products/${product.id}`} className="flex-grow group">
+        <Link to={`/products/${product.slug}`} className="flex-grow group">
           <h3 className="font-bold text-[#333333] text-lg leading-tight line-clamp-2 group-hover:text-[#6B8E23] transition-colors">
             {product.name}
           </h3>
@@ -161,12 +172,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
           {product.inStock ? "Add to Cart" : "Out of Stock"}
         </button>
       </div>
+
       
     </div>
 
 
 
-    
   );
 };
 
@@ -181,6 +192,18 @@ export const defaultProducts: Product[] = [
     badge: "Hot",
     inStock: true,
     isFavorite: false,
+    slug: "red-beans",
+    description: "Premium quality red beans, rich in protein and fiber. Perfect for soups, stews, and traditional dishes.",
+    category: "Legumes",
+    weight: "500g",
+    ingredients: "100% Natural Red Beans",
+    nutritionalInfo: {
+      protein: "22g",
+      carbs: "60g",
+      fat: "1g",
+      fiber: "16g"
+    },
+    images: ["🫘", "🫘", "🫘"]
   },
   {
     id: 2,
@@ -192,6 +215,18 @@ export const defaultProducts: Product[] = [
     badge: "Organic",
     inStock: true,
     isFavorite: false,
+    slug: "almonds-whole",
+    description: "Organic whole almonds, packed with nutrients and perfect for snacking or cooking.",
+    category: "Nuts",
+    weight: "250g",
+    ingredients: "100% Organic Almonds",
+    nutritionalInfo: {
+      protein: "21g",
+      carbs: "22g",
+      fat: "49g",
+      fiber: "12g"
+    },
+    images: ["🌰", "🌰", "🌰"]
   },
   {
     id: 3,
@@ -204,6 +239,18 @@ export const defaultProducts: Product[] = [
     badge: "Sale",
     inStock: true,
     isFavorite: false,
+    slug: "mogra-kesar",
+    description: "Exquisite Mogra Kesar flowers, known for their aromatic fragrance and premium quality.",
+    category: "Spices & Herbs",
+    weight: "100g",
+    ingredients: "100% Pure Mogra Kesar Flowers",
+    nutritionalInfo: {
+      protein: "5g",
+      carbs: "18g",
+      fat: "2g",
+      fiber: "8g"
+    },
+    images: ["🌼", "🌼", "🌼"]
   },
   {
     id: 4,
@@ -216,6 +263,18 @@ export const defaultProducts: Product[] = [
     badge: "Hot",
     inStock: true,
     isFavorite: false,
+    slug: "star-anise",
+    description: "Aromatic star anise with a distinct licorice flavor, perfect for Asian cuisine and spice blends.",
+    category: "Spices & Herbs",
+    weight: "50g",
+    ingredients: "100% Natural Star Anise",
+    nutritionalInfo: {
+      protein: "18g",
+      carbs: "50g",
+      fat: "16g",
+      fiber: "15g"
+    },
+    images: ["✨", "✨", "✨"]
   },
   {
     id: 5,
@@ -226,6 +285,18 @@ export const defaultProducts: Product[] = [
     reviewCount: 89,
     inStock: true,
     isFavorite: false,
+    slug: "red-chili",
+    description: "Fiery red chili peppers, adding heat and flavor to your favorite dishes.",
+    category: "Spices & Herbs",
+    weight: "100g",
+    ingredients: "100% Dried Red Chili",
+    nutritionalInfo: {
+      protein: "12g",
+      carbs: "40g",
+      fat: "5g",
+      fiber: "14g"
+    },
+    images: ["🌶️", "🌶️", "🌶️"]
   },
 ];
 
