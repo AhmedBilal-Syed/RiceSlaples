@@ -4,78 +4,172 @@ import { Link } from "react-router-dom";
 import Footer from "~/Components/Footer";
 import Header from "~/Components/Header";
 
-interface ProductRequest {
+interface ProductItem {
   id: number;
   productName: string;
-  category: string;
+  categories: string[];
   quantity: string;
   urgency: "Low" | "Medium" | "High";
   description: string;
-  status: "Pending" | "Approved" | "Rejected" | "In Progress";
+}
+
+interface ProductRequest {
+  id: number;
+  products: ProductItem[];
+  status: "Pending" | "In Progress" | "Rejected" | "Not Available" | "Available" | "Delivered";
   submittedDate: string;
   estimatedDelivery?: string;
+  rejectionReason?: string;
+  paymentStatus?: "Pending" | "Received";
   notes?: string;
 }
 
 const RequestProductPage = () => {
   const [formData, setFormData] = useState({
-    productName: "",
-    category: "",
-    quantity: "",
-    urgency: "Medium" as "Low" | "Medium" | "High",
-    description: "",
+    products: [{
+      id: 1,
+      productName: "",
+      categories: [] as string[],
+      quantity: "",
+      urgency: "Medium" as "Low" | "Medium" | "High",
+      description: ""
+    }],
     specialRequirements: ""
   });
 
   const [requests, setRequests] = useState<ProductRequest[]>([
     {
       id: 1,
-      productName: "Organic Blueberries",
-      category: "Fruits",
-      quantity: "50kg",
-      urgency: "High",
-      description: "Fresh organic blueberries for smoothie production",
-      status: "Approved",
+      products: [{
+        id: 1,
+        productName: "Organic Blueberries",
+        categories: ["Fruits", "Organic"],
+        quantity: "50kg",
+        urgency: "High",
+        description: "Fresh organic blueberries for smoothie production"
+      }],
+      status: "Delivered",
       submittedDate: "2024-01-15",
-      estimatedDelivery: "2024-01-25"
+      estimatedDelivery: "2024-01-25",
+      paymentStatus: "Received"
     },
     {
       id: 2,
-      productName: "Avocado Oil",
-      category: "Oils",
-      quantity: "20L",
-      urgency: "Medium",
-      description: "Cold-pressed avocado oil for cooking",
+      products: [{
+        id: 1,
+        productName: "Avocado Oil",
+        categories: ["Oils"],
+        quantity: "20L",
+        urgency: "Medium",
+        description: "Cold-pressed avocado oil for cooking"
+      }],
       status: "In Progress",
       submittedDate: "2024-01-12",
       estimatedDelivery: "2024-02-01"
     },
     {
       id: 3,
-      productName: "Quinoa Grain",
-      category: "Grains",
-      quantity: "100kg",
-      urgency: "Low",
-      description: "Organic quinoa for health food line",
+      products: [{
+        id: 1,
+        productName: "Quinoa Grain",
+        categories: ["Grains", "Organic"],
+        quantity: "100kg",
+        urgency: "Low",
+        description: "Organic quinoa for health food line"
+      }],
       status: "Pending",
       submittedDate: "2024-01-18"
     },
     {
       id: 4,
-      productName: "Mango Pulp",
-      category: "Fruits",
-      quantity: "30kg",
-      urgency: "High",
-      description: "Frozen mango pulp for juice production",
+      products: [{
+        id: 1,
+        productName: "Mango Pulp",
+        categories: ["Fruits", "Frozen"],
+        quantity: "30kg",
+        urgency: "High",
+        description: "Frozen mango pulp for juice production"
+      }],
       status: "Rejected",
       submittedDate: "2024-01-10",
-      notes: "Supplier unavailable until next season"
+      rejectionReason: "Supplier unavailable until next season"
+    },
+    {
+      id: 5,
+      products: [{
+        id: 1,
+        productName: "Japanese Matcha",
+        categories: ["Beverages", "Organic"],
+        quantity: "5kg",
+        urgency: "Medium",
+        description: "Premium grade matcha powder"
+      }],
+      status: "Not Available",
+      submittedDate: "2024-01-08",
+      rejectionReason: "Product discontinued by manufacturer"
     }
   ]);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [activeTab, setActiveTab] = useState<"form" | "history">("form");
+
+  const categories = [
+    "Fruits", "Vegetables", "Grains", "Dairy", "Meat", "Seafood",
+    "Oils", "Spices", "Beverages", "Snacks", "Frozen", "Organic",
+    "Gluten-Free", "Vegan", "Keto", "Paleo"
+  ];
+
+  // Product Management
+  const addProduct = () => {
+    setFormData(prev => ({
+      ...prev,
+      products: [
+        ...prev.products,
+        {
+          id: Date.now(),
+          productName: "",
+          categories: [] as string[],
+          quantity: "",
+          urgency: "Medium",
+          description: ""
+        }
+      ]
+    }));
+  };
+
+  const removeProduct = (productId: number) => {
+    if (formData.products.length > 1) {
+      setFormData(prev => ({
+        ...prev,
+        products: prev.products.filter(product => product.id !== productId)
+      }));
+    }
+  };
+
+  const updateProduct = (productId: number, field: string, value: any) => {
+    setFormData(prev => ({
+      ...prev,
+      products: prev.products.map(product =>
+        product.id === productId ? { ...product, [field]: value } : product
+      )
+    }));
+  };
+
+  const handleCategoryToggle = (productId: number, category: string) => {
+    setFormData(prev => ({
+      ...prev,
+      products: prev.products.map(product => {
+        if (product.id === productId) {
+          const updatedCategories = product.categories.includes(category)
+            ? product.categories.filter(c => c !== category)
+            : [...product.categories, category];
+          return { ...product, categories: updatedCategories };
+        }
+        return product;
+      })
+    }));
+  };
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({
@@ -88,16 +182,25 @@ const RequestProductPage = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
+    // Validate form
+    const hasEmptyFields = formData.products.some(product => 
+      !product.productName.trim() || 
+      !product.quantity.trim() || 
+      product.categories.length === 0
+    );
+
+    if (hasEmptyFields) {
+      alert("Please fill in all required fields for all products");
+      setIsSubmitting(false);
+      return;
+    }
+
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1500));
 
     const newRequest: ProductRequest = {
       id: Date.now(),
-      productName: formData.productName,
-      category: formData.category,
-      quantity: formData.quantity,
-      urgency: formData.urgency,
-      description: formData.description,
+      products: formData.products,
       status: "Pending",
       submittedDate: new Date().toISOString().split('T')[0]
     };
@@ -106,11 +209,14 @@ const RequestProductPage = () => {
     
     // Reset form
     setFormData({
-      productName: "",
-      category: "",
-      quantity: "",
-      urgency: "Medium",
-      description: "",
+      products: [{
+        id: 1,
+        productName: "",
+        categories: [] as string[],
+        quantity: "",
+        urgency: "Medium",
+        description: ""
+      }],
       specialRequirements: ""
     });
 
@@ -124,11 +230,21 @@ const RequestProductPage = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'Approved': return 'bg-green-100 text-green-800 border-green-200';
+      case 'Delivered': return 'bg-green-100 text-green-800 border-green-200';
+      case 'Available': return 'bg-emerald-100 text-emerald-800 border-emerald-200';
       case 'In Progress': return 'bg-blue-100 text-blue-800 border-blue-200';
       case 'Pending': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
       case 'Rejected': return 'bg-red-100 text-red-800 border-red-200';
+      case 'Not Available': return 'bg-gray-100 text-gray-800 border-gray-200';
       default: return 'bg-gray-100 text-gray-800 border-gray-200';
+    }
+  };
+
+  const getPaymentStatusColor = (status: string) => {
+    switch (status) {
+      case 'Received': return 'bg-green-100 text-green-800';
+      case 'Pending': return 'bg-yellow-100 text-yellow-800';
+      default: return 'bg-gray-100 text-gray-800';
     }
   };
 
@@ -143,11 +259,21 @@ const RequestProductPage = () => {
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'Approved': return '✅';
+      case 'Delivered': return '✅';
+      case 'Available': return '📦';
       case 'In Progress': return '🔄';
       case 'Pending': return '⏳';
       case 'Rejected': return '❌';
+      case 'Not Available': return '🚫';
       default: return '📋';
+    }
+  };
+
+  const getPaymentStatusIcon = (status: string) => {
+    switch (status) {
+      case 'Received': return '💳';
+      case 'Pending': return '⏳';
+      default: return '💰';
     }
   };
 
@@ -160,10 +286,17 @@ const RequestProductPage = () => {
     }
   };
 
-  const categories = [
-    "Fruits", "Vegetables", "Grains", "Dairy", "Meat", "Seafood",
-    "Oils", "Spices", "Beverages", "Snacks", "Frozen", "Organic"
-  ];
+  const getStatusDescription = (status: string) => {
+    switch (status) {
+      case 'Pending': return 'Your request is under review';
+      case 'In Progress': return 'We are sourcing your products';
+      case 'Rejected': return 'Request cannot be fulfilled';
+      case 'Not Available': return 'Products are not available';
+      case 'Available': return 'Products are ready for shipping';
+      case 'Delivered': return 'Products have been delivered';
+      default: return 'Status unknown';
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-green-50 flex flex-col">
@@ -177,9 +310,9 @@ const RequestProductPage = () => {
               <div className="inline-flex items-center justify-center w-20 h-20 bg-green-100 rounded-2xl mb-6">
                 <span className="text-3xl">📦</span>
               </div>
-              <h1 className="text-4xl font-bold text-gray-800 mb-4">Request a Product</h1>
+              <h1 className="text-4xl font-bold text-gray-800 mb-4">Request Products</h1>
               <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-                Can't find what you're looking for? Request a product and we'll do our best to source it for you.
+                Can't find what you're looking for? Request multiple products and we'll do our best to source them for you.
               </p>
             </div>
 
@@ -209,15 +342,24 @@ const RequestProductPage = () => {
 
             {activeTab === "form" ? (
               // Request Form
-              <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
-                <div className="flex items-center mb-8">
-                  <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mr-4">
-                    <span className="text-xl">✨</span>
+              <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 lg:p-8">
+                <div className="flex items-center justify-between mb-8">
+                  <div className="flex items-center">
+                    <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mr-4">
+                      <span className="text-xl">✨</span>
+                    </div>
+                    <div>
+                      <h2 className="text-2xl font-bold text-gray-800">New Product Request</h2>
+                      <p className="text-gray-600">Add multiple products and their details</p>
+                    </div>
                   </div>
-                  <div>
-                    <h2 className="text-2xl font-bold text-gray-800">New Product Request</h2>
-                    <p className="text-gray-600">Fill out the form below to request a product</p>
-                  </div>
+                  <button
+                    onClick={addProduct}
+                    className="flex items-center bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
+                  >
+                    <span className="mr-2">+</span>
+                    Add Product
+                  </button>
                 </div>
                 
                 {submitSuccess && (
@@ -239,107 +381,135 @@ const RequestProductPage = () => {
                 )}
 
                 <form onSubmit={handleSubmit} className="space-y-8">
-                  {/* Product Name */}
-                  <div className="space-y-3">
-                    <label className="block text-lg font-semibold text-gray-800">
-                      Product Name <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.productName}
-                      onChange={(e) => handleInputChange('productName', e.target.value)}
-                      className="w-full border-2 border-gray-200 rounded-xl px-5 py-4 text-lg focus:border-green-500 focus:ring-4 focus:ring-green-100 transition-all duration-300"
-                      placeholder="e.g., Organic Blueberries, Avocado Oil, etc."
-                      required
-                    />
-                  </div>
-
-                  {/* Category and Quantity */}
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <div className="space-y-3">
-                      <label className="block text-lg font-semibold text-gray-800">
-                        Category <span className="text-red-500">*</span>
-                      </label>
-                      <select
-                        value={formData.category}
-                        onChange={(e) => handleInputChange('category', e.target.value)}
-                        className="w-full border-2 border-gray-200 rounded-xl px-5 py-4 text-lg focus:border-green-500 focus:ring-4 focus:ring-green-100 transition-all duration-300 appearance-none bg-white"
-                        required
-                      >
-                        <option value="">Select a category</option>
-                        {categories.map(category => (
-                          <option key={category} value={category}>{category}</option>
-                        ))}
-                      </select>
-                    </div>
-                    <div className="space-y-3">
-                      <label className="block text-lg font-semibold text-gray-800">
-                        Quantity <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        value={formData.quantity}
-                        onChange={(e) => handleInputChange('quantity', e.target.value)}
-                        className="w-full border-2 border-gray-200 rounded-xl px-5 py-4 text-lg focus:border-green-500 focus:ring-4 focus:ring-green-100 transition-all duration-300"
-                        placeholder="e.g., 50kg, 20L, 100 units"
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  {/* Urgency */}
-                  <div className="space-y-4">
-                    <label className="block text-lg font-semibold text-gray-800">
-                      Urgency Level <span className="text-red-500">*</span>
-                    </label>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      {(['Low', 'Medium', 'High'] as const).map((level) => (
+                  {/* Products List */}
+                  {formData.products.map((product, index) => (
+                    <div key={product.id} className="border-2 border-gray-200 rounded-2xl p-6 relative">
+                      {formData.products.length > 1 && (
                         <button
-                          key={level}
                           type="button"
-                          onClick={() => handleInputChange('urgency', level)}
-                          className={`p-6 border-2 rounded-2xl text-center transition-all duration-300 group ${
-                            formData.urgency === level
-                              ? 'border-green-500 bg-green-50 shadow-lg shadow-green-100'
-                              : 'border-gray-200 bg-gray-50 hover:border-gray-300 hover:shadow-md'
-                          }`}
+                          onClick={() => removeProduct(product.id)}
+                          className="absolute -top-3 -right-3 bg-red-500 text-white w-6 h-6 rounded-full flex items-center justify-center text-sm hover:bg-red-600 transition-colors"
                         >
-                          <div className={`text-2xl mb-2 transition-transform duration-300 ${
-                            formData.urgency === level ? 'scale-110' : 'group-hover:scale-105'
-                          }`}>
-                            {getUrgencyIcon(level)}
-                          </div>
-                          <div className={`font-semibold ${
-                            formData.urgency === level ? 'text-green-700' : 'text-gray-700'
-                          }`}>
-                            {level}
-                          </div>
-                          <div className={`text-sm mt-1 ${
-                            formData.urgency === level ? 'text-green-600' : 'text-gray-500'
-                          }`}>
-                            {level === 'Low' && 'Within 2 weeks'}
-                            {level === 'Medium' && 'Within 1 week'}
-                            {level === 'High' && 'Within 3 days'}
-                          </div>
+                          ×
                         </button>
-                      ))}
-                    </div>
-                  </div>
+                      )}
+                      
+                      <div className="flex items-center mb-6">
+                        <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center mr-3">
+                          <span className="text-lg">#{index + 1}</span>
+                        </div>
+                        <h3 className="text-xl font-bold text-gray-800">Product {index + 1}</h3>
+                      </div>
 
-                  {/* Description */}
-                  <div className="space-y-3">
-                    <label className="block text-lg font-semibold text-gray-800">
-                      Product Description <span className="text-red-500">*</span>
-                    </label>
-                    <textarea
-                      value={formData.description}
-                      onChange={(e) => handleInputChange('description', e.target.value)}
-                      rows={4}
-                      className="w-full border-2 border-gray-200 rounded-xl px-5 py-4 text-lg focus:border-green-500 focus:ring-4 focus:ring-green-100 transition-all duration-300 resize-none"
-                      placeholder="Please describe the product, including any specific requirements like organic, brand preferences, packaging, etc."
-                      required
-                    />
-                  </div>
+                      <div className="space-y-6">
+                        {/* Product Name */}
+                        <div className="space-y-3">
+                          <label className="block text-lg font-semibold text-gray-800">
+                            Product Name <span className="text-red-500">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            value={product.productName}
+                            onChange={(e) => updateProduct(product.id, 'productName', e.target.value)}
+                            className="w-full border-2 border-gray-200 rounded-xl px-5 py-4 text-lg focus:border-green-500 focus:ring-4 focus:ring-green-100 transition-all duration-300"
+                            placeholder="e.g., Organic Blueberries, Avocado Oil, etc."
+                            required
+                          />
+                        </div>
+
+                        {/* Categories - Checkbox Selection */}
+                        <div className="space-y-3">
+                          <label className="block text-lg font-semibold text-gray-800">
+                            Categories <span className="text-red-500">*</span>
+                            <span className="text-sm text-gray-500 ml-2">(Select all that apply)</span>
+                          </label>
+                          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                            {categories.map(category => (
+                              <label key={category} className="flex items-center space-x-2 p-3 border-2 border-gray-200 rounded-xl hover:border-green-300 transition-colors cursor-pointer">
+                                <input
+                                  type="checkbox"
+                                  checked={product.categories.includes(category)}
+                                  onChange={() => handleCategoryToggle(product.id, category)}
+                                  className="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500"
+                                />
+                                <span className="text-sm font-medium text-gray-700">{category}</span>
+                              </label>
+                            ))}
+                          </div>
+                          {product.categories.length > 0 && (
+                            <div className="flex flex-wrap gap-2 mt-2">
+                              {product.categories.map(category => (
+                                <span key={category} className="bg-green-100 text-green-800 px-3 py-1 rounded-lg text-sm font-medium">
+                                  {category}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Quantity and Urgency */}
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                          <div className="space-y-3">
+                            <label className="block text-lg font-semibold text-gray-800">
+                              Quantity <span className="text-red-500">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              value={product.quantity}
+                              onChange={(e) => updateProduct(product.id, 'quantity', e.target.value)}
+                              className="w-full border-2 border-gray-200 rounded-xl px-5 py-4 text-lg focus:border-green-500 focus:ring-4 focus:ring-green-100 transition-all duration-300"
+                              placeholder="e.g., 50kg, 20L, 100 units"
+                              required
+                            />
+                          </div>
+                          
+                          <div className="space-y-3">
+                            <label className="block text-lg font-semibold text-gray-800">
+                              Urgency Level <span className="text-red-500">*</span>
+                            </label>
+                            <div className="grid grid-cols-3 gap-2">
+                              {(['Low', 'Medium', 'High'] as const).map((level) => (
+                                <button
+                                  key={level}
+                                  type="button"
+                                  onClick={() => updateProduct(product.id, 'urgency', level)}
+                                  className={`p-3 border-2 rounded-xl text-center transition-all duration-300 ${
+                                    product.urgency === level
+                                      ? 'border-green-500 bg-green-50 shadow-lg shadow-green-100'
+                                      : 'border-gray-200 bg-gray-50 hover:border-gray-300'
+                                  }`}
+                                >
+                                  <div className={`text-lg mb-1 ${getUrgencyColor(level).replace('bg-', 'text-')}`}>
+                                    {getUrgencyIcon(level)}
+                                  </div>
+                                  <div className={`text-sm font-medium ${
+                                    product.urgency === level ? 'text-green-700' : 'text-gray-700'
+                                  }`}>
+                                    {level}
+                                  </div>
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Description */}
+                        <div className="space-y-3">
+                          <label className="block text-lg font-semibold text-gray-800">
+                            Product Description <span className="text-red-500">*</span>
+                          </label>
+                          <textarea
+                            value={product.description}
+                            onChange={(e) => updateProduct(product.id, 'description', e.target.value)}
+                            rows={3}
+                            className="w-full border-2 border-gray-200 rounded-xl px-5 py-4 text-lg focus:border-green-500 focus:ring-4 focus:ring-green-100 transition-all duration-300 resize-none"
+                            placeholder="Please describe the product, including any specific requirements like organic, brand preferences, packaging, etc."
+                            
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
 
                   {/* Special Requirements */}
                   <div className="space-y-3">
@@ -351,7 +521,7 @@ const RequestProductPage = () => {
                       onChange={(e) => handleInputChange('specialRequirements', e.target.value)}
                       rows={3}
                       className="w-full border-2 border-gray-200 rounded-xl px-5 py-4 text-lg focus:border-green-500 focus:ring-4 focus:ring-green-100 transition-all duration-300 resize-none"
-                      placeholder="Any additional requirements or notes..."
+                      placeholder="Any additional requirements or notes for the entire order..."
                     />
                   </div>
 
@@ -372,7 +542,7 @@ const RequestProductPage = () => {
                     ) : (
                       <>
                         <span className="mr-2">🚀</span>
-                        Submit Product Request
+                        Submit Product Request ({formData.products.length} {formData.products.length === 1 ? 'product' : 'products'})
                       </>
                     )}
                   </button>
@@ -380,7 +550,7 @@ const RequestProductPage = () => {
               </div>
             ) : (
               // Request History
-              <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
+              <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 lg:p-8">
                 <div className="flex items-center justify-between mb-8">
                   <div className="flex items-center">
                     <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mr-4">
@@ -412,55 +582,93 @@ const RequestProductPage = () => {
                   <div className="space-y-6">
                     {requests.map((request) => (
                       <div key={request.id} className="border-2 border-gray-100 rounded-2xl p-6 hover:border-green-200 hover:shadow-lg transition-all duration-300 group">
-                        <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
+                        <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 mb-4">
                           <div className="flex-1">
                             <div className="flex items-start justify-between mb-4">
-                              <h3 className="text-xl font-bold text-gray-800 group-hover:text-green-700 transition-colors">
-                                {request.productName}
-                              </h3>
-                              <span className={`px-4 py-2 rounded-xl text-sm font-semibold border-2 ${getStatusColor(request.status)}`}>
-                                {getStatusIcon(request.status)} {request.status}
-                              </span>
-                            </div>
-                            
-                            <div className="flex flex-wrap gap-3 mb-4">
-                              <span className="bg-blue-100 text-blue-800 px-3 py-2 rounded-lg text-sm font-medium flex items-center">
-                                <span className="mr-2">🏷️</span>
-                                {request.category}
-                              </span>
-                              <span className={`px-3 py-2 rounded-lg text-sm font-medium flex items-center ${getUrgencyColor(request.urgency)}`}>
-                                <span className="mr-2">{getUrgencyIcon(request.urgency)}</span>
-                                {request.urgency} Priority
-                              </span>
-                              <span className="bg-gray-100 text-gray-800 px-3 py-2 rounded-lg text-sm font-medium flex items-center">
-                                <span className="mr-2">📊</span>
-                                {request.quantity}
-                              </span>
-                            </div>
-                            
-                            <p className="text-gray-600 leading-relaxed mb-4">{request.description}</p>
-                            
-                            <div className="flex flex-wrap items-center gap-6 text-sm text-gray-500">
-                              <span className="flex items-center">
-                                <span className="mr-2">📅</span>
-                                Submitted: {request.submittedDate}
-                              </span>
-                              {request.estimatedDelivery && (
-                                <span className="flex items-center">
-                                  <span className="mr-2">🚚</span>
-                                  Est. Delivery: {request.estimatedDelivery}
+                              <div>
+                                <h3 className="text-xl font-bold text-gray-800 group-hover:text-green-700 transition-colors">
+                                  Request #{request.id}
+                                </h3>
+                                <p className="text-gray-600 mt-1">{getStatusDescription(request.status)}</p>
+                              </div>
+                              <div className="flex flex-col items-end gap-2">
+                                <span className={`px-4 py-2 rounded-xl text-sm font-semibold border-2 ${getStatusColor(request.status)}`}>
+                                  {getStatusIcon(request.status)} {request.status}
                                 </span>
-                              )}
+                                {request.paymentStatus && (
+                                  <span className={`px-3 py-1 rounded-lg text-xs font-medium ${getPaymentStatusColor(request.paymentStatus)}`}>
+                                    {getPaymentStatusIcon(request.paymentStatus)} Payment {request.paymentStatus}
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                            
+                            {/* Products in this request */}
+                            <div className="space-y-4">
+                              {request.products.map((product, index) => (
+                                <div key={product.id} className="border border-gray-200 rounded-xl p-4">
+                                  <div className="flex items-start justify-between mb-3">
+                                    <h4 className="font-semibold text-gray-800">
+                                      {product.productName}
+                                    </h4>
+                                    <span className={`px-2 py-1 rounded text-xs font-medium ${getUrgencyColor(product.urgency)}`}>
+                                      {getUrgencyIcon(product.urgency)} {product.urgency}
+                                    </span>
+                                  </div>
+                                  
+                                  <div className="flex flex-wrap gap-2 mb-3">
+                                    {product.categories.map(category => (
+                                      <span key={category} className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs font-medium">
+                                        {category}
+                                      </span>
+                                    ))}
+                                    <span className="bg-gray-100 text-gray-800 px-2 py-1 rounded text-xs font-medium">
+                                      {product.quantity}
+                                    </span>
+                                  </div>
+                                  
+                                  <p className="text-gray-600 text-sm">{product.description}</p>
+                                </div>
+                              ))}
                             </div>
                           </div>
+                        </div>
+
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-4 border-t border-gray-200">
+                          <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500">
+                            <span className="flex items-center">
+                              <span className="mr-2">📅</span>
+                              Submitted: {request.submittedDate}
+                            </span>
+                            {request.estimatedDelivery && (
+                              <span className="flex items-center">
+                                <span className="mr-2">🚚</span>
+                                Est. Delivery: {request.estimatedDelivery}
+                              </span>
+                            )}
+                          </div>
+                          
+                          {(request.status === 'Rejected' || request.status === 'Not Available') && request.rejectionReason && (
+                            <div className="flex-1 max-w-md">
+                              <div className="p-3 bg-red-50 border border-red-200 rounded-xl">
+                                <div className="flex items-start">
+                                  <span className="text-red-600 mr-2 mt-1">💡</span>
+                                  <div>
+                                    <p className="font-semibold text-red-800 text-sm mb-1">Reason</p>
+                                    <p className="text-red-700 text-sm">{request.rejectionReason}</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          )}
                         </div>
 
                         {request.notes && (
                           <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-xl">
                             <div className="flex items-start">
-                              <span className="text-yellow-600 mr-3 mt-1">💡</span>
+                              <span className="text-yellow-600 mr-3 mt-1">📝</span>
                               <div>
-                                <p className="font-semibold text-yellow-800 mb-1">Admin Note</p>
+                                <p className="font-semibold text-yellow-800 mb-1">Additional Notes</p>
                                 <p className="text-yellow-700">{request.notes}</p>
                               </div>
                             </div>
@@ -487,7 +695,7 @@ const RequestProductPage = () => {
                         1
                       </div>
                       <h4 className="font-semibold text-blue-800 mb-2">Submit Request</h4>
-                      <p className="text-blue-700 text-sm">Fill out the form with product details and requirements</p>
+                      <p className="text-blue-700 text-sm">Add multiple products with categories and requirements</p>
                     </div>
                     <div className="text-center p-4">
                       <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-blue-600 text-xl mx-auto mb-3 shadow-sm">
@@ -500,8 +708,8 @@ const RequestProductPage = () => {
                       <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-blue-600 text-xl mx-auto mb-3 shadow-sm">
                         3
                       </div>
-                      <h4 className="font-semibold text-blue-800 mb-2">Get Updates</h4>
-                      <p className="text-blue-700 text-sm">Track your request status and receive notifications</p>
+                      <h4 className="font-semibold text-blue-800 mb-2">Track Status</h4>
+                      <p className="text-blue-700 text-sm">Monitor progress from Pending to Delivered with real updates</p>
                     </div>
                   </div>
                 </div>

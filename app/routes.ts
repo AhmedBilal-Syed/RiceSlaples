@@ -10,6 +10,10 @@ export default [
     route("account", "routes/AccountPage.tsx"),
 route("order/:orderId", "routes/OrderDetailPage.tsx"),
 route("request-product", "routes/request-product.tsx"),
+  route("checkout", "routes/Checkout.tsx"),
+  route("reservation-confirmation", "routes/reservation-confirmation.tsx"),
+  route("order-confirmation", "routes/order-confirmation.tsx"),
+
 
 
 
