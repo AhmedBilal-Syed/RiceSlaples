@@ -13,7 +13,11 @@ route("request-product", "routes/request-product.tsx"),
   route("checkout", "routes/Checkout.tsx"),
   route("reservation-confirmation", "routes/reservation-confirmation.tsx"),
   route("order-confirmation", "routes/order-confirmation.tsx"),
+  route("blog", "routes/Blog.tsx"),
 
+route("blog/:slug", "routes/blog.$slug.tsx"),
+route("deals/:slug", "routes/deal.$slug.tsx"),
+ 
 
 
 

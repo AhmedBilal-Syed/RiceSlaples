@@ -6,6 +6,7 @@ import Header from "../Components/Header";
 import Footer from "../Components/Footer";
 import ProductCard, { defaultProducts } from "../Components/ProductCard";
 import StoreSelector from "../Components/StoreSelector";
+import { defaultDealProducts } from "../Components/DealofTheDay";
 import type { Route } from "./+types/home";
 
 export function meta({ params }: Route.MetaArgs) {
@@ -17,7 +18,14 @@ export function meta({ params }: Route.MetaArgs) {
 
 export default function ProductDetail() {
   const { slug } = useParams();
-  const product = defaultProducts.find(p => p.slug === slug);
+  
+  // First check if it's a deal product
+  const dealProduct = defaultDealProducts.find(p => p.slug === slug);
+  // If not found in deals, check in regular products
+  const regularProduct = defaultProducts.find(p => p.slug === slug);
+  
+  const product = dealProduct || regularProduct;
+  const isDealProduct = !!dealProduct; // This will be true only for deal products
 
   if (!product) {
     return (
@@ -37,7 +45,7 @@ export default function ProductDetail() {
   return (
     <div className="min-h-screen bg-white">
       <Header />
-      <ProductDetailContent product={product} />
+      <ProductDetailContent product={product} isDealProduct={isDealProduct} />
       <Footer />
     </div>
   );
@@ -46,6 +54,7 @@ export default function ProductDetail() {
 // Product Detail Component
 interface ProductDetailProps {
   product: any;
+  isDealProduct: boolean;
 }
 
 // Product variant types
@@ -85,7 +94,7 @@ interface StoreLocation {
   timing: string;
 }
 
-const ProductDetailContent: React.FC<ProductDetailProps> = ({ product }) => {
+const ProductDetailContent: React.FC<ProductDetailProps> = ({ product, isDealProduct }) => {
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState("5kg");
@@ -101,6 +110,10 @@ const ProductDetailContent: React.FC<ProductDetailProps> = ({ product }) => {
   // State for store pickup
   const [deliveryOption, setDeliveryOption] = useState<'home' | 'store'>('home');
   const [selectedStore, setSelectedStore] = useState<StoreLocation | null>(null);
+  
+  // Safe timer handling - provide default if timer doesn't exist
+  const productTimer = product.timer || "729 12 55 27";
+  const timerParts = productTimer.split(" ");
 
   // Store locations data
   const storeLocations: StoreLocation[] = [
@@ -408,19 +421,43 @@ const handleBuyNow = () => {
           </nav>
         </div>
 
+        {/* Deal Timer Banner - Only show for deal products */}
+        {isDealProduct && (
+          <div className="mb-6 bg-red-50 border border-red-200 rounded-lg p-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <span className="bg-[#6B8E23] text-white px-3 py-1 rounded-full text-sm font-bold">
+                  Deal of the Day
+                </span>
+                <span className="text-red-800 font-semibold">Limited time offer! Ends in:</span>
+              </div>
+              <div className="text-right flex gap-2">
+                {["DAY", "HRS", "MIN", "SEC"].map((unit, index) => (
+                  <div key={unit} className="text-center">
+                    <div className="bg-white text-red-600 border border-red-200 px-3 py-2 rounded font-mono font-bold text-lg min-w-[3rem]">
+                      {timerParts[index] || "00"}
+                    </div>
+                    <div className="text-red-700 text-xs mt-1 font-medium">{unit}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
           {/* Product Images Section */}
           <div className="space-y-4">
             {/* Main Image */}
             <div className="bg-white rounded-lg p-4 lg:p-6 border border-[#E5E5E5] shadow-sm">
               <div className="aspect-square flex items-center justify-center">
-                <span className="text-8xl lg:text-9xl">{product.images[selectedImage]}</span>
+                <span className="text-8xl lg:text-9xl">{product.images ? product.images[selectedImage] : product.image}</span>
               </div>
             </div>
 
             {/* Thumbnail Images */}
             <div className="flex space-x-3 overflow-x-auto pb-2">
-              {product.images.map((image: string, index: number) => (
+              {(product.images || [product.image]).map((image: string, index: number) => (
                 <button
                   key={index}
                   onClick={() => setSelectedImage(index)}
@@ -451,7 +488,7 @@ const handleBuyNow = () => {
                   {"☆".repeat(5 - Math.floor(product.rating || 0))}
                 </div>
                 <span className="text-[#696969] text-sm lg:text-base">
-                  ({product.reviewCount} reviews)
+                  ({product.reviewCount || 0} reviews)
                 </span>
               </div>
 
@@ -846,7 +883,7 @@ const handleBuyNow = () => {
                         {"★".repeat(Math.floor(product.rating || 0))}
                         {"☆".repeat(5 - Math.floor(product.rating || 0))}
                       </div>
-                      <div className="text-[#696969] text-sm mt-1">{product.reviewCount} reviews</div>
+                      <div className="text-[#696969] text-sm mt-1">{product.reviewCount || 0} reviews</div>
                     </div>
                   </div>
                   <button className="bg-[#6B8E23] hover:bg-[#5A7A1A] text-white font-semibold py-2 px-6 rounded-lg transition-colors">
