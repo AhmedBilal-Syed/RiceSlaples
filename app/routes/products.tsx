@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
-import ProductCard, { defaultProducts } from "../Components/ProductCard";
+import ProductCard2, { defaultProducts } from "../Components/ProductCard2";
 import type { Route } from "./+types/home";
 
 export function meta({}: Route.MetaArgs) {
@@ -676,13 +676,12 @@ export default function Products() {
               {filteredProducts.length > 0 ? (
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                   {filteredProducts.map((product) => (
-                    <ProductCard 
+                    <ProductCard2
                       key={product.id}
                       product={{
                         ...product,
                         isFavorite: favorites.includes(product.id),
-                        discount: product.discount,
-                        popularity: product.popularity
+                        discount: product.discount
                       }}
                       onAddToCart={handleAddToCart}
                       onToggleFavorite={handleToggleFavorite}

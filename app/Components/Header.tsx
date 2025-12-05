@@ -183,11 +183,10 @@ const Header = () => {
       <div className="bg-white sticky top-0 z-50 border-b border-[#E5E5E5] shadow-sm">
         <div className="container mx-auto">
           <div className="flex items-center justify-between py-3 px-4 lg:py-4 lg:px-0">
-            <Link to="/" className="text-xl lg:text-4xl font-bold text-[#6B8E23] flex-shrink-0">
+            <Link to="/" className="text-xl lg:text-4xl font-bold text-black  flex-shrink-0">
               Rice And Staples
             </Link>
             <div className="flex items-center space-x-3 lg:space-x-4">
-              {/* Skeleton loading for auth state */}
               <div className="hidden md:flex items-center space-x-2">
                 <div className="w-6 h-6 bg-gray-200 rounded animate-pulse"></div>
               </div>
@@ -203,274 +202,246 @@ const Header = () => {
   return (
     <>
       {/* Top Bar - Improved Mobile */}
-      <div className="bg-[#6B8E23] text-white py-2 px-4">
-        <div className="container mx-auto">
-          <div className="flex flex-col xs:flex-row justify-between items-center gap-2 xs:gap-4">
-            {/* Contact Info - Better Mobile Stacking */}
-            <div className="flex flex-wrap justify-center xs:justify-start gap-3 xs:gap-6 text-xs">
-              <span className="flex items-center space-x-2">
-                <FaPhone className="text-xs flex-shrink-0" />
-                <span className="whitespace-nowrap">+2600 0500 2600</span>
-              </span>
-              <span className="flex items-center space-x-2">
-                <FaEnvelope className="text-xs flex-shrink-0" />
-                <span className="whitespace-nowrap">Info@gmail.com</span>
-              </span>
-            </div>
-            
-            {/* Sale Banner - Better Mobile Text */}
-            <p className="font-medium text-xs xs:text-sm text-center xs:text-right whitespace-nowrap">
-              Summer sale 50% off
-            </p>
-          </div>
-        </div>
-      </div>
+     
 
       {/* Main Header - Improved Mobile Layout */}
       <header className={`bg-white sticky top-0 z-50 transition-all duration-300 border-b border-[#E5E5E5] ${scrolled ? "shadow-lg" : "shadow-sm"}`}>
         <div className="container mx-auto">
           {/* Top Row - Better Mobile Spacing */}
-          <div className="flex items-center justify-between py-3 px-4 lg:py-4 lg:px-0">
-            {/* Logo - Better Mobile Size */}
-            <Link to="/" className="text-xl lg:text-4xl font-bold text-[#6B8E23] flex-shrink-0">
+  <div className="flex items-center justify-between py-3 px-4 lg:py-4 lg:px-0">
+  {/* Logo */}
+  <Link to="/" className="text-xl lg:text-4xl font-bold text-[#222222] flex-shrink-0 transition-all duration-300 hover:scale-105">
               Rice And Staples
-            </Link>
+  </Link>
 
-            {/* Search Bar - Hidden on mobile, shown in mobile menu */}
-            <div className="hidden lg:flex flex-1 max-w-xl mx-6">
-              <div className="relative w-full">
-                <input
-                  type="text"
-                  placeholder="Search our store"
-                  className="w-full rounded-lg border border-[#E5E5E5] px-4 py-2 focus:ring-2 focus:ring-[#6B8E23] focus:outline-none text-[#333333]"
-                />
-                <FaSearch className="absolute right-3 top-1/2 -translate-y-1/2 text-[#696969]" />
-              </div>
-            </div>
+  {/* Search Bar - Hidden on Mobile */}
+  <div className="hidden lg:flex flex-1 max-w-xl mx-6">
+    <div className="relative w-full transition-all duration-300 hover:scale-105">
+      <input
+        type="text"
+        placeholder="Search our store"
+        className="w-full rounded-full border border-[#E5E5E5] px-6 py-3 focus:ring-2 focus:ring-[#6B8E23] focus:outline-none text-[#333333] bg-[#f8f8f8] shadow-sm transition-all duration-300 hover:shadow-md"
+      />
+      <FaSearch className="absolute right-4 top-1/2 -translate-y-1/2 text-[#696969] transition-all duration-300" />
+    </div>
+  </div>
 
-            {/* Right Section - Icons Only - Better Mobile Spacing */}
-            <div className="flex items-center space-x-3 lg:space-x-4">
-              {/* Toggle - Hidden on mobile */}
-              <div className="hidden md:flex items-center">
-                <div className="flex bg-[#F5F5DC] rounded-full p-1">
-                  <button
-                    onClick={() => setIsWholesale(false)}
-                    className={`px-3 lg:px-4 py-1 lg:py-2 rounded-full transition text-xs lg:text-sm font-medium ${
-                      !isWholesale ? "bg-white shadow text-[#6B8E23]" : "text-[#696969]"
-                    }`}
-                  >
-                    Retail
-                  </button>
-                  <button
-                    onClick={() => setIsWholesale(true)}
-                    className={`px-3 lg:px-4 py-1 lg:py-2 rounded-full transition text-xs lg:text-sm font-medium ${
-                      isWholesale ? "bg-white shadow text-[#6B8E23]" : "text-[#696969]"
-                    }`}
-                  >
-                    Wholesale
-                  </button>
-                </div>
-              </div>
+  {/* Right Section - Enhanced Container */}
+  <div className="flex items-center space-x-3 lg:space-x-4 border border-[#E5E5E5] p-3 rounded-full bg-[#f8f8f8] shadow-sm hover:shadow-lg transition-all duration-300 hover:border-[#c23d00] hover:bg-white">
+    {/* Toggle */}
+    <div className="hidden md:flex items-center">
+      <div className="flex bg-[#f0f0f0] rounded-full p-1 shadow-inner">
+        <button
+          onClick={() => setIsWholesale(false)}
+          className={`px-4 py-2 rounded-full transition-all duration-300 text-sm font-medium ${
+            !isWholesale 
+              ? "bg-[#b91d08] shadow-md text-white hover:bg-[#c23d00]" 
+              : "text-[#696969] hover:text-[#333333] hover:bg-white"
+          }`}
+        >
+          Retail
+        </button>
+        <button
+          onClick={() => setIsWholesale(true)}
+          className={`px-4 py-2 rounded-full transition-all duration-300 text-sm font-medium ${
+            isWholesale 
+              ? "bg-[#b91d08] shadow-md text-white hover:bg-[#c23d00]" 
+              : "text-[#696969] hover:text-[#333333] hover:bg-white"
+          }`}
+        >
+          Wholesale
+        </button>
+      </div>
+    </div>
 
-              {/* User Profile / Auth Section - Desktop */}
-              <div className="hidden md:flex items-center space-x-4">
-                {isLoggedIn ? (
-                  // Logged in state - Show user info and logout with better icons
-                  <div className="flex items-center space-x-3">
-                    <Link 
-                      to="/account" 
-                      className="flex items-center space-x-2 text-[#333333] hover:text-[#6B8E23] transition-colors group"
-                    >
-                      <div className="relative">
-                        <FaUserCheck className="w-6 h-6 text-[#6B8E23] group-hover:text-[#5A7A1A] transition-colors" />
-                      </div>
-                      <span className="text-sm font-medium">My Account</span>
-                    </Link>
-                    <button
-                      onClick={handleLogout}
-                      className="text-[#333333] hover:text-[#DC143C] transition-colors p-2 rounded-lg hover:bg-gray-100"
-                      title="Logout"
-                    >
-                      <FaSignOutAlt size={20} />
-                    </button>
-                  </div>
-                ) : (
-                  // Not logged in - Show login/signup buttons
-                  <div className="flex items-center space-x-2">
-                    <button
-                      onClick={() => handleAuthClick("login")}
-                      className="flex items-center space-x-2 text-[#333333] hover:text-[#6B8E23] transition-colors font-medium text-sm px-3 py-2 rounded-lg hover:bg-gray-100"
-                    >
-                      <FaUserCircle className="w-4 h-4" />
-                      <span>Login</span>
-                    </button>
-                    <span className="text-gray-400">|</span>
-                    <button
-                      onClick={() => handleAuthClick("signup")}
-                      className="text-[#333333] hover:text-[#6B8E23] transition-colors font-medium text-sm px-3 py-2 rounded-lg hover:bg-gray-100"
-                    >
-                      Sign Up
-                    </button>
-                  </div>
-                )}
-              </div>
+    {/* Mobile Menu Toggle */}
+    <button 
+      onClick={() => setOpen(!open)}
+      className="lg:hidden text-[#333333] p-2 rounded-full hover:bg-[#6B8E23] hover:text-white transition-all duration-300 transform hover:scale-110 shadow-sm"
+      aria-label="Toggle menu"
+    >
+      {open ? <FaTimes size={20} /> : <FaBars size={20} />}
+    </button>
+  </div>
 
-              {/* Wishlist Icon - Better Mobile Size */}
-              <Link 
-                to="/wishlist" 
-                className="relative text-[#333333] hover:text-[#6B8E23] transition-colors"
-              >
-                <FaRegHeart size={24} className="lg:w-6 lg:h-6" />
-                {wishlistCount > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-[#DC143C] text-white rounded-full text-xs w-5 h-5 flex items-center justify-center font-bold">
-                    {wishlistCount}
-                  </span>
-                )}
-              </Link>
+  {/* Contact Info - Enhanced */}
+  <div className="hidden lg:flex items-center space-x-4">
+    <span className="flex items-center space-x-2 border border-[#E5E5E5] px-4 py-2 rounded-full bg-white shadow-sm hover:shadow-md transition-all duration-300 hover:border-[#6B8E23] hover:bg-[#f8f8f8]">
+      <FaPhone className="text-[#c23d00] text-sm" />
+      <span className="text-[#333333] text-sm font-medium whitespace-nowrap">+2600 0500 2600</span>
+    </span>
+    <span className="flex items-center space-x-2 border border-[#E5E5E5] px-4 py-2 rounded-full bg-white shadow-sm hover:shadow-md transition-all duration-300 hover:border-[#6B8E23] hover:bg-[#f8f8f8]">
+      <FaEnvelope className="text-[#c23d00] text-sm" />
+      <span className="text-[#333333] text-sm font-medium whitespace-nowrap">Info@gmail.com</span>
+    </span>
+  </div>
+</div>
 
-              {/* Cart Button - Better Mobile Size */}
-              <button 
-                onClick={() => setCartOpen(!cartOpen)}
-                className="relative text-[#333333] hover:text-[#6B8E23] transition-colors"
-                data-cart-icon="true"
-              >
-                <FaCartPlus size={24} className="lg:w-6 lg:h-6" />
-                {cartItemCount > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-[#DC143C] text-white rounded-full text-xs w-5 h-5 flex items-center justify-center font-bold">
-                    {cartItemCount}
-                  </span>
-                )}
+{/* Desktop Navigation - Enhanced */}
+<nav className="hidden lg:block border-t border-[#E5E5E5] mt-0">
+  <div className="flex justify-between items-center py-4">
+    {/* Left Side - Navigation Menu */}
+    <div className="flex items-center space-x-8">
+      {/* Navigation Menu Items */}
+      <div className="flex items-center space-x-8">
+        {[
+          { path: "/", label: "HOME" },
+          { path: "/products", label: "SHOP" },
+          { 
+            path: "#", 
+            label: "COLLECTION",
+            hasDropdown: true 
+          },
+          { path: "/blog", label: "BLOG" },
+        ].map(item => (
+          item.hasDropdown ? (
+            <div
+              key={item.path}
+              className="relative"
+              onMouseEnter={() => setCollectionDropdown(true)}
+              onMouseLeave={() => setCollectionDropdown(false)}
+            >
+              <button className="flex items-center text-[#333333] font-bold hover:text-[#6B8E23] transition-all duration-300 text-sm uppercase group transform hover:scale-105">
+                {item.label}
+                <FaChevronDown className={`ml-2 w-3 h-3 transition-all duration-300 ${collectionDropdown ? 'rotate-180' : ''}`} />
               </button>
 
-              {/* Mobile Menu Toggle - Better Visibility */}
-              <button 
-                onClick={() => setOpen(!open)}
-                className="lg:hidden text-[#333333] p-2 rounded-lg hover:bg-gray-100 transition-colors"
-                aria-label="Toggle menu"
-              >
-                {open ? <FaTimes size={20} /> : <FaBars size={20} />}
-              </button>
-            </div>
-          </div>
-
-          {/* Desktop Navigation with Request Button */}
-          <nav className="hidden lg:block border-t border-[#E5E5E5] mt-0">
-            <div className="flex justify-between items-center py-3">
-              {/* Left Side - Navigation Menu + Request Button */}
-              <div className="flex items-center space-x-8">
-                {/* Navigation Menu Items */}
-                <div className="flex items-center space-x-8">
-                  {[
-                    { path: "/", label: "HOME" },
-                    { path: "/products", label: "SHOP" },
-                    { 
-                      path: "#", 
-                      label: "COLLECTION",
-                      hasDropdown: true 
-                    },
-                    { path: "/blog", label: "BLOG" },
-                  ].map(item => (
-                    item.hasDropdown ? (
-                      <div
-                        key={item.path}
-                        className="relative"
-                        onMouseEnter={() => setCollectionDropdown(true)}
-                        onMouseLeave={() => setCollectionDropdown(false)}
-                      >
-                        <button className="flex items-center text-[#333333] font-bold hover:text-[#6B8E23] transition-colors text-sm uppercase group">
-                          {item.label}
-                          <FaChevronDown className={`ml-1 w-3 h-3 transition-transform duration-200 ${collectionDropdown ? 'rotate-180' : ''}`} />
-                        </button>
-
-                        {/* Dropdown Menu */}
-                        {collectionDropdown && (
-                          <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-80 bg-white border border-[#E5E5E5] rounded-lg shadow-xl z-50">
-                            <div className="p-6">
-                              <div className="grid grid-cols-1 gap-4">
-                                {collectionItems.map((collection) => (
-                                  <Link
-                                    key={collection.id}
-                                    to={collection.link}
-                                    className="flex items-center space-x-4 p-3 rounded-lg hover:bg-[#F5F5DC] transition-all duration-200 group"
-                                    onClick={() => setCollectionDropdown(false)}
-                                  >
-                                    <div className="flex-shrink-0 w-12 h-12 bg-white border border-[#E5E5E5] rounded-lg flex items-center justify-center group-hover:border-[#6B8E23] transition-colors">
-                                      <span className="text-2xl">{collection.image}</span>
-                                    </div>
-                                    <div className="flex-1 min-w-0">
-                                      <h3 className="font-bold text-[#333333] text-sm group-hover:text-[#6B8E23] transition-colors">
-                                        {collection.title}
-                                      </h3>
-                                      <p className="text-[#696969] text-xs mt-1">
-                                        {collection.description}
-                                      </p>
-                                    </div>
-                                    <svg
-                                      className="w-4 h-4 text-[#696969] group-hover:text-[#6B8E23] transition-colors flex-shrink-0"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      viewBox="0 0 24 24"
-                                    >
-                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                    </svg>
-                                  </Link>
-                                ))}
-                              </div>
-                            </div>
+              {/* Dropdown Menu - Enhanced */}
+              {collectionDropdown && (
+                <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-3 w-80 bg-white border border-[#E5E5E5] rounded-xl shadow-2xl z-50 transition-all duration-300">
+                  <div className="p-6">
+                    <div className="grid grid-cols-1 gap-3">
+                      {collectionItems.map((collection) => (
+                        <Link
+                          key={collection.id}
+                          to={collection.link}
+                          className="flex items-center space-x-4 p-4 rounded-lg hover:bg-[#F5F5DC] transition-all duration-300 group transform hover:scale-105 border border-transparent hover:border-[#6B8E23]"
+                          onClick={() => setCollectionDropdown(false)}
+                        >
+                          <div className="flex-shrink-0 w-12 h-12 bg-white border border-[#E5E5E5] rounded-xl flex items-center justify-center group-hover:border-[#6B8E23] transition-all duration-300 shadow-sm">
+                            <span className="text-2xl transition-all duration-300">{collection.image}</span>
                           </div>
-                        )}
-                      </div>
-                    ) : (
-                      <NavLink
-                        key={item.path}
-                        to={item.path}
-                        className={({ isActive }) =>
-                          `text-[#333333] font-bold hover:text-[#6B8E23] transition-colors text-sm uppercase ${
-                            isActive ? "text-[#6B8E23]" : ""
-                          }`
-                        }
-                      >
-                        {item.label}
-                      </NavLink>
-                    )
-                  ))}
-                </div>
-
-                {/* Request Products Button */}
-                <button 
-                  onClick={() => navigate("/request-product")}
-                  className="flex items-center bg-[#DC143C] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#C1121F] transition-colors ml-4"
-                >
-                  Request Products
-                </button>
-              </div>
-
-              {/* Right Side - Breadcrumb */}
-              {location.pathname !== "/" && (
-                <div className="text-sm text-[#696969]">
-                  <span className="opacity-70">Home</span>
-                  <span className="mx-2">/</span>
-                  <span className="text-[#333333] capitalize">
-                    {location.pathname.split("/")[1]}
-                  </span>
+                          <div className="flex-1 min-w-0">
+                            <h3 className="font-bold text-[#333333] text-sm group-hover:text-[#6B8E23] transition-all duration-300">
+                              {collection.title}
+                            </h3>
+                            <p className="text-[#696969] text-xs mt-1 transition-all duration-300">
+                              {collection.description}
+                            </p>
+                          </div>
+                          <svg
+                            className="w-4 h-4 text-[#696969] group-hover:text-[#6B8E23] transition-all duration-300 flex-shrink-0 transform group-hover:translate-x-1"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          </svg>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               )}
             </div>
-          </nav>
+          ) : (
+            <NavLink
+              key={item.path}
+              to={item.path}
+              className={({ isActive }) =>
+                `text-[#333333] font-bold hover:text-[#6B8E23] transition-all duration-300 text-sm uppercase transform hover:scale-105 ${
+                  isActive ? "text-[#6B8E23] border-b-2 border-[#6B8E23] pb-1" : ""
+                }`
+              }
+            >
+              {item.label}
+            </NavLink>
+          )
+        ))}
+      </div>
 
-          {/* Mobile Search - Always Visible when menu open */}
-          <div className={`lg:hidden px-4 transition-all duration-300 overflow-hidden ${
-            open ? "pb-4 border-b border-[#E5E5E5] max-h-20" : "max-h-0"
-          }`}>
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Search our store..."
-                className="w-full border border-[#E5E5E5] rounded-lg px-4 py-3 focus:ring-2 focus:ring-[#6B8E23] focus:outline-none text-[#333333]"
-              />
-              <FaSearch className="absolute right-3 top-1/2 -translate-y-1/2 text-[#696969]" />
-            </div>
+      {/* Request Products Button - Enhanced */}
+      <button 
+        onClick={() => navigate("/request-product")}
+        className="flex items-center bg-[#b91d08] text-white px-6 py-3 rounded-full text-sm font-medium hover:bg-[#b91d08] transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg"
+      >
+        Request Products
+      </button>
+    </div>
+
+    {/* Right Side - Auth and Icons */}
+    <div className="flex items-center gap-6">
+      {/* Auth Section - Enhanced */}
+      <div className="hidden md:flex items-center space-x-4">
+        {isLoggedIn ? (
+          <div className="flex items-center space-x-4">
+            <Link 
+              to="/account" 
+              className="flex items-center space-x-2 text-[#333333] hover:text-[#6B8E23] transition-all duration-300 group transform hover:scale-105"
+            >
+              <div className="relative transition-all duration-300 group-hover:scale-110">
+                <FaUserCheck className="w-6 h-6 text-[#6B8E23] group-hover:text-[#5A7A1A] transition-all duration-300" />
+              </div>
+              <span className="text-sm font-medium">My Account</span>
+            </Link>
+            <button
+              onClick={handleLogout}
+              className="text-[#333333] hover:text-[#DC143C] transition-all duration-300 p-2 rounded-full hover:bg-gray-100 transform hover:scale-110 shadow-sm"
+              title="Logout"
+            >
+              <FaSignOutAlt size={20} />
+            </button>
           </div>
+        ) : (
+          <div className="flex items-center space-x-3 bg-[#f8f8f8] rounded-full px-4 py-2 shadow-sm">
+            <button
+              onClick={() => handleAuthClick("login")}
+              className="flex items-center space-x-2 text-[#333333] hover:text-[#6B8E23] transition-all duration-300 font-medium text-sm px-3 py-1 rounded-full hover:bg-white transform hover:scale-105"
+            >
+              <FaUserCircle className="w-4 h-4 transition-all duration-300" />
+              <span>Login</span>
+            </button>
+            <span className="text-gray-300">|</span>
+            <button
+              onClick={() => handleAuthClick("signup")}
+              className="text-[#333333] hover:text-[#6B8E23] transition-all duration-300 font-medium text-sm px-3 py-1 rounded-full hover:bg-white transform hover:scale-105"
+            >
+              Sign Up
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Icons Section - Enhanced */}
+      <div className="flex gap-5 items-center">
+        <Link 
+          to="/wishlist" 
+          className="relative text-[#333333] hover:text-[#6B8E23] transition-all duration-300 transform hover:scale-110"
+        >
+          <FaRegHeart size={24} className="lg:w-6 lg:h-6 transition-all duration-300" />
+          {wishlistCount > 0 && (
+            <span className="absolute -top-2 -right-2 bg-[#DC143C] text-white rounded-full text-xs w-5 h-5 flex items-center justify-center font-bold transition-all duration-300 shadow-md">
+              {wishlistCount}
+            </span>
+          )}
+        </Link>
+
+        <button 
+          onClick={() => setCartOpen(!cartOpen)}
+          className="relative text-[#333333] hover:text-[#6B8E23] transition-all duration-300 transform hover:scale-110"
+          data-cart-icon="true"
+        >
+          <FaCartPlus size={24} className="lg:w-6 lg:h-6 transition-all duration-300" />
+          {cartItemCount > 0 && (
+            <span className="absolute -top-2 -right-2 bg-[#DC143C] text-white rounded-full text-xs w-5 h-5 flex items-center justify-center font-bold transition-all duration-300 shadow-md">
+              {cartItemCount}
+            </span>
+          )}
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
 
           {/* Mobile Menu - Improved Responsive Styling Without Blackout */}
           <div className={`lg:hidden mobile-menu-container fixed inset-y-0 right-0 z-40 bg-white transition-all duration-300 ease-in-out transform ${
@@ -491,12 +462,14 @@ const Header = () => {
                   </button>
                 </div>
 
-                {/* Toggle - Better Mobile Layout */}
-                <div className="flex bg-[#F5F5DC] rounded-2xl p-1">
+                {/* Toggle - Better Mobile Layout with Updated Colors */}
+                <div className="flex bg-[#f0f0f0] rounded-2xl p-1">
                   <button
                     onClick={() => setIsWholesale(false)}
                     className={`flex-1 py-3 rounded-xl transition text-sm font-medium ${
-                      !isWholesale ? "bg-white shadow text-[#6B8E23]" : "text-[#696969]"
+                      !isWholesale 
+                        ? "bg-[#b91d08] shadow text-white hover:bg-[#c23d00]" 
+                        : "text-[#696969] hover:text-[#333333] hover:bg-white"
                     }`}
                   >
                     Retail
@@ -504,7 +477,9 @@ const Header = () => {
                   <button
                     onClick={() => setIsWholesale(true)}
                     className={`flex-1 py-3 rounded-xl transition text-sm font-medium ${
-                      isWholesale ? "bg-white shadow text-[#6B8E23]" : "text-[#696969]"
+                      isWholesale 
+                        ? "bg-[#b91d08] shadow text-white hover:bg-[#c23d00]" 
+                        : "text-[#696969] hover:text-[#333333] hover:bg-white"
                     }`}
                   >
                     Wholesale
@@ -535,25 +510,25 @@ const Header = () => {
                     </div>
                   </div>
                 ) : (
-                  // Not logged in - Mobile
+                  // Not logged in - Mobile with updated colors
                   <div className="grid grid-cols-2 gap-3">
                     <button
                       onClick={() => handleAuthClick("login")}
-                      className="flex items-center justify-center space-x-2 p-4 rounded-2xl bg-gray-100 text-[#333333] font-bold hover:bg-[#6B8E23] hover:text-white transition-colors"
+                      className="flex items-center justify-center space-x-2 p-4 rounded-2xl bg-[#f8f8f8] text-[#333333] font-bold hover:bg-[#6B8E23] hover:text-white transition-colors border border-[#E5E5E5]"
                     >
                       <FaUserCircle size={16} />
                       <span className="text-sm">LOGIN</span>
                     </button>
                     <button
                       onClick={() => handleAuthClick("signup")}
-                      className="flex items-center justify-center space-x-2 p-4 rounded-2xl bg-[#6B8E23] text-white font-bold hover:bg-[#5A7A1A] transition-colors"
+                      className="flex items-center justify-center space-x-2 p-4 rounded-2xl bg-[#c23d00] text-white font-bold hover:bg-[#DC143C] transition-colors"
                     >
                       <span className="text-sm">SIGN UP</span>
                     </button>
                   </div>
                 )}
 
-                {/* Navigation Links - Better Mobile Spacing with Icons */}
+                {/* Navigation Links - Better Mobile Spacing with Icons and Updated Colors */}
                 <div className="space-y-2">
                   {[
                     { path: "/", label: "HOME", icon: <FaHome size={18} /> },
@@ -567,9 +542,9 @@ const Header = () => {
                       key={item.path}
                       to={item.path}
                       onClick={() => setOpen(false)}
-                      className="flex items-center space-x-4 py-4 px-4 rounded-2xl bg-[#F5F5DC] text-[#333333] font-bold hover:bg-[#6B8E23] hover:text-white transition-colors text-sm group"
+                      className="flex items-center space-x-4 py-4 px-4 rounded-2xl bg-[#f8f8f8] text-[#333333] font-bold hover:bg-[#6B8E23] hover:text-white transition-colors text-sm group border border-[#E5E5E5]"
                     >
-                      <div className="text-[#6B8E23] group-hover:text-white transition-colors">
+                      <div className="text-[#c23d00] group-hover:text-white transition-colors">
                         {item.icon}
                       </div>
                       <span>{item.label}</span>
@@ -583,7 +558,7 @@ const Header = () => {
                     navigate("/request-product");
                     setOpen(false);
                   }}
-                  className="w-full bg-[#DC143C] text-white py-4 rounded-2xl font-bold hover:bg-[#C1121F] transition-colors text-sm shadow-lg hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center space-x-2"
+                  className="w-full bg-[#b91d08] text-white py-4 rounded-2xl font-bold bg-[#b91d08] transition-colors text-sm shadow-lg hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center space-x-2"
                 >
                   <span>🚀</span>
                   <span>REQUEST PRODUCTS</span>
@@ -593,11 +568,11 @@ const Header = () => {
                 <div className="pt-4 border-t border-gray-200">
                   <div className="space-y-3 text-sm text-gray-600">
                     <div className="flex items-center space-x-3">
-                      <FaPhone className="text-gray-500 flex-shrink-0" size={14} />
+                      <FaPhone className="text-[#c23d00] flex-shrink-0" size={14} />
                       <span>+2600 0500 2600</span>
                     </div>
                     <div className="flex items-center space-x-3">
-                      <FaEnvelope className="text-gray-500 flex-shrink-0" size={14} />
+                      <FaEnvelope className="text-[#c23d00] flex-shrink-0" size={14} />
                       <span>Info@gmail.com</span>
                     </div>
                   </div>

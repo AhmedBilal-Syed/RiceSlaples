@@ -8,6 +8,8 @@ import DealOfTheDay, { defaultDealProducts } from "../Components/DealofTheDay";
 import BelowDealSection from "../Components/BelowDealSection";
 import type { Route } from "./+types/home";
 import { Link } from "react-router-dom";
+import OrganicGroceryBanner from "~/Components/OrganicGroceryBanner";
+import MiniOrganicDualBanner from "~/Components/MiniOrganicDualBanner";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -29,15 +31,16 @@ export default function Home() {
     <div className="min-h-screen bg-white">
       <Header />
       <Carousel />
+      <MiniOrganicDualBanner/>
       
       {/* Categories Section */}
       <Categories />
       
       {/* Trending Products Section */}
-      <section className="py-16 bg-[#F5F5DC]">
+      <section className="py-16 bg-[#fcf6ed]">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold text-[#333333] mb-4">
+            <h2 className="text-3xl lg:text-4xl font-bold text-[#222222] mb-4">
               Trending products
             </h2>
           </div>
@@ -57,7 +60,7 @@ export default function Home() {
         <div className="text-center mt-12 lg:mt-16">
          <Link
   to="/products"
-  className="inline-flex items-center justify-center bg-[#6B8E23] text-white font-semibold text-base px-8 py-4 rounded-lg transition-all duration-300 hover:bg-[#5A7A1A] focus:outline-none focus:ring-2 focus:ring-[#6B8E23] focus:ring-opacity-50"
+  className="inline-flex items-center justify-center bg-[#b91d08] text-white font-semibold text-base px-10 py-3 rounded-4xl transition-all duration-300  ck focus:outline-none focus:ring-2  focus:ring-opacity-50"
 >
   ALL Products
   <svg
@@ -73,46 +76,61 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section className="bg-white rounded-lg p-8 mb-12 border border-[#E5E5E5]">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="text-center">
-            <div className="w-16 h-16 bg-[#6B8E23] rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="text-white text-2xl">🚚</span>
-            </div>
-            <h3 className="font-bold text-lg mb-2 text-[#333333]">Free delivary</h3>
-            <p className="text-[#696969] text-sm">Orders from all item</p>
-          </div>
+     {/* <section className="bg-white rounded-xl p-8 mb-12 shadow-lg">
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 
-          <div className="text-center">
-            <div className="w-16 h-16 bg-[#6B8E23] rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="text-white text-2xl">↩️</span>
-            </div>
-            <h3 className="font-bold text-lg mb-2 text-[#333333]">Return & refund</h3>
-            <p className="text-[#696969] text-sm">Money back guarantee</p>
-          </div>
-
-          <div className="text-center">
-            <div className="w-16 h-16 bg-[#6B8E23] rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="text-white text-2xl">💬</span>
-            </div>
-            <h3 className="font-bold text-lg mb-2 text-[#333333]">Customer support</h3>
-            <p className="text-[#696969] text-sm">Alway online live 24/7</p>
-          </div>
+    <div className="text-center group">
+      <div className="w-20 h-20 bg-gradient-to-br from-[#df3400] to-[#ff6b3d] rounded-full flex items-center justify-center mx-auto mb-5 shadow-lg group-hover:shadow-xl group-hover:scale-105 transition-all duration-300">
+        <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-sm">
+          <span className="text-white text-3xl">🚚</span>
         </div>
-      </section>
+      </div>
+      <h3 className="font-bold text-lg mb-2 text-gray-800 group-hover:text-[#df3400] transition-colors duration-300">
+        Free Delivery
+      </h3>
+      <p className="text-gray-500 text-sm">Orders from all items</p>
+    </div>
 
+
+    <div className="text-center group">
+      <div className="w-20 h-20 bg-gradient-to-br from-[#df3400] to-[#ff6b3d] rounded-full flex items-center justify-center mx-auto mb-5 shadow-lg group-hover:shadow-xl group-hover:scale-105 transition-all duration-300">
+        <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-sm">
+          <span className="text-white text-3xl">🔄</span>
+        </div>
+      </div>
+      <h3 className="font-bold text-lg mb-2 text-gray-800 group-hover:text-[#df3400] transition-colors duration-300">
+        Return & Refund
+      </h3>
+      <p className="text-gray-500 text-sm">Money back guarantee</p>
+    </div>
+
+    
+    <div className="text-center group">
+      <div className="w-20 h-20 bg-gradient-to-br from-[#df3400] to-[#ff6b3d] rounded-full flex items-center justify-center mx-auto mb-5 shadow-lg group-hover:shadow-xl group-hover:scale-105 transition-all duration-300">
+        <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-sm">
+          <span className="text-white text-3xl">💬</span>
+        </div>
+      </div>
+      <h3 className="font-bold text-lg mb-2 text-gray-800 group-hover:text-[#df3400] transition-colors duration-300">
+        Customer Support
+      </h3>
+      <p className="text-gray-500 text-sm">Always online 24/7</p>
+    </div>
+  </div>
+</section> */}
+<OrganicGroceryBanner/>
       {/* Deal of the Day Section */}
-      <section className="py-16 bg-[#F5F5DC]">
+      <section className="py-16 bg-[#fcf6ed]">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center mb-12">
             <div>
-              <h2 className="text-3xl lg:text-4xl font-bold text-[#333333] mb-2">
+              <h2 className="text-3xl lg:text-4xl font-bold text-[#222222] mb-2">
                 Deal of the Day
               </h2>
             </div>
              <Link
   to="/products"
-  className="inline-flex items-center justify-center bg-[#6B8E23] text-white font-semibold text-base px-8 py-4 rounded-lg transition-all duration-300 hover:bg-[#5A7A1A] focus:outline-none focus:ring-2 focus:ring-[#6B8E23] focus:ring-opacity-50"
+  className="inline-flex items-center justify-center bg-[#b91d08] text-white font-semibold text-base px-10 py-3 rounded-4xl transition-all duration-300  focus:outline-none focus:ring-2  focus:ring-opacity-50"
 >
   ALL Products
   <svg

@@ -10,7 +10,7 @@ export interface Product {
   image: string;
   rating?: number;
   reviewCount?: number;
-  badge?: "Hot" | "New" | "Sale" | "Organic";
+  badge?: "Hot" | "New" | "Sale" | "Organic" | "31% off" | "29% off";
   category?: string;
   inStock?: boolean;
   isFavorite?: boolean;
@@ -31,19 +31,26 @@ interface ProductCardProps {
   product: Product;
   onAddToCart?: (product: Product) => void;
   onToggleFavorite?: (productId: number) => void;
+  onOpenCart?: () => void;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
   product,
   onAddToCart,
   onToggleFavorite,
+  onOpenCart,
 }) => {
   const [showViewIcon, setShowViewIcon] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     onAddToCart?.(product);
+    // Open cart modal after adding item
+    if (onOpenCart) {
+      setTimeout(() => onOpenCart(), 300);
+    }
   };
 
   const handleToggleFavorite = (e: React.MouseEvent) => {
@@ -62,19 +69,34 @@ const ProductCard: React.FC<ProductCardProps> = ({
     setShowModal(false);
   };
 
+  const handleWishlistClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    // Navigate to wishlist page
+    window.location.href = '/wishlist';
+  };
+
   return (
     <>
       <div 
-        className="border border-[#E5E5E5] bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-200 flex flex-col h-full relative"
-        onMouseEnter={() => setShowViewIcon(true)}
-        onMouseLeave={() => setShowViewIcon(false)}
+        className="bg-white rounded-lg flex flex-col h-full relative group transition-all duration-500 ease-out transform hover:scale-105 hover:shadow-2xl"
+        onMouseEnter={() => {
+          setShowViewIcon(true);
+          setIsHovered(true);
+        }}
+        onMouseLeave={() => {
+          setShowViewIcon(false);
+          setIsHovered(false);
+        }}
       >
-        {/* Image Section */}
-        <div className="relative h-56 overflow-hidden rounded-t-lg">
+        {/* Image Section with Animation */}
+        <div className="relative h-40 overflow-hidden rounded-t-lg bg-white">
           <Link to={`/products/${product.slug}`} className="block w-full h-full">
-            <div className="w-full h-full flex items-center justify-center p-4 bg-white">
+            <div className="w-full h-full flex items-center justify-center p-4">
               <span
-                className="text-7xl transition-transform duration-300 hover:scale-110"
+                className={`text-5xl transition-all duration-500 ease-out ${
+                  isHovered ? 'scale-110 rotate-2' : 'scale-100 rotate-0'
+                }`}
                 role="img"
                 aria-label={product.name}
               >
@@ -83,13 +105,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
             </div>
           </Link>
 
-          {/* Badge */}
+          {/* Badge with Animation */}
           {product.badge && (
-            <div className="absolute top-3 left-3">
+            <div className="absolute top-3 left-3 transform transition-all duration-500 ease-out hover:scale-110">
               <span
-                className={`px-2 py-1 text-xs font-bold text-white rounded ${
-                  product.badge === "Hot" || product.badge === "Sale"
-                    ? "bg-[#DC143C]"
+                className={`px-3 py-1 text-xs font-bold text-white rounded-lg shadow-lg ${
+                  product.badge === "Hot" || product.badge === "Sale" || product.badge === "31% off" || product.badge === "29% off"
+                    ? "bg-[#6B8E23]"
                     : product.badge === "New"
                     ? "bg-[#6B8E23]"
                     : "bg-[#6B8E23]"
@@ -100,19 +122,72 @@ const ProductCard: React.FC<ProductCardProps> = ({
             </div>
           )}
 
-          {/* View Icon - Shows on hover */}
-          <div className={`absolute top-3 right-12 transition-all duration-300 transform ${
-            showViewIcon 
-              ? 'opacity-100 scale-100 translate-x-0' 
-              : 'opacity-0 scale-50 translate-x-4'
-          }`}>
+          {/* Out of Stock */}
+          {!product.inStock && (
+            <div className="absolute inset-0 bg-black/50 flex items-center justify-center rounded-t-lg">
+              <span className="text-white text-xs font-bold bg-black/70 px-3 py-1.5 rounded">
+                Out of Stock
+              </span>
+            </div>
+          )}
+        </div>
+
+        {/* Content with Animation */}
+        <div className="p-4 flex flex-col items-center flex-grow transform transition-all duration-500 ease-out group-hover:translate-y-[-5px]">
+          {/* Name */}
+          <Link to={`/products/${product.slug}`} className="flex-grow group">
+            <h3 className="font-semibold text-[#222222] text-base leading-tight line-clamp-2 transition-colors duration-300 group-hover:text-[#6B8E23] mb-2">
+              {product.name}
+            </h3>
+          </Link>
+
+          {/* Price */}
+          <div className="flex items-center gap-2 mb-3 transform transition-all duration-500 ease-out group-hover:scale-105">
+            <span className="text-[#e73d1f] font-bold text-lg">{product.price}</span>
+            {product.originalPrice && (
+              <span className="text-[#888888] line-through text-sm">
+                {product.originalPrice}
+              </span>
+            )}
+          </div>
+
+          {/* Rating */}
+          {product.rating && (
+            <div className="flex items-center gap-1 mb-4 transform transition-all duration-500 ease-out group-hover:scale-105">
+              <div className="flex text-yellow-500 text-xl">
+                {"★".repeat(Math.floor(product.rating))}
+                {"☆".repeat(5 - Math.floor(product.rating))}
+              </div>
+              {product.reviewCount && (
+                <span className="text-[#666666] text-xs ml-1">
+                  ({product.reviewCount})
+                </span>
+              )}
+            </div>
+          )}
+
+          {/* Action Icons Row with Enhanced Animations */}
+          <div className="flex items-center justify-center gap-3 mt-auto pt-3 border-t border-[#f0f0f0] w-full">
+            {/* Add to Cart Icon - Shopping Bag */}
+            <button
+              onClick={handleAddToCart}
+              disabled={!product.inStock}
+              className="w-10 h-10 bg-transparent hover:bg-[#8e4523] text-[#222222] hover:text-white rounded-full flex items-center justify-center transition-all duration-300 ease-out transform hover:scale-110 hover:shadow-lg border border-[#E5E5E5] hover:border-[#6B8E23]"
+              aria-label="Add to cart"
+            >
+              <svg className="w-5 h-5 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+              </svg>
+            </button>
+
+            {/* View Icon */}
             <button
               onClick={handleViewClick}
-              className="w-8 h-8 bg-white/95 backdrop-blur-sm rounded-full flex items-center justify-center shadow-sm hover:shadow-md transition-all duration-200 border border-[#E5E5E5] hover:border-[#6B8E23] hover:bg-[#6B8E23] group"
+              className="w-10 h-10 bg-white border border-[#E5E5E5] hover:bg-[#8e4523] rounded-full flex items-center justify-center transition-all duration-300 ease-out transform hover:scale-110 hover:shadow-lg group"
               aria-label="Quick view"
             >
               <svg
-                className="w-4 h-4 text-[#696969] group-hover:text-white transition-colors duration-200"
+                className="w-5 h-5 text-[#696969] group-hover:text-white transition-all duration-300"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -131,23 +206,16 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 />
               </svg>
             </button>
-          </div>
 
-          {/* Favorite Button */}
-          <div className="absolute top-3 right-3">
+            {/* Favorite/Wishlist Button */}
             <button
-              onClick={handleToggleFavorite}
-              className="w-8 h-8 bg-white/95 backdrop-blur-sm rounded-full flex items-center justify-center shadow-sm hover:shadow-md transition-all duration-200 border border-[#E5E5E5] hover:border-red-500"
-              aria-label={
-                product.isFavorite ? "Remove from favorites" : "Add to favorites"
-              }
+              onClick={handleWishlistClick}
+              className="w-10 h-10 bg-white border border-[#E5E5E5] hover:border-red-500 hover:bg-red-500 rounded-full flex items-center justify-center transition-all duration-300 ease-out transform hover:scale-110 hover:shadow-lg group"
+              aria-label="Add to wishlist"
             >
               <svg
-                className={`w-4 h-4 transition-colors duration-200 ${
-                  product.isFavorite
-                    ? "fill-red-600 text-red-600"
-                    : "fill-none text-[#696969] hover:text-red-600"
-                }`}
+                className="w-5 h-5 text-[#696969] group-hover:text-white transition-all durationhover:border-[#6B8E23] hover:bg-[#6B8E23]-300"
+                fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
               >
@@ -160,66 +228,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
               </svg>
             </button>
           </div>
-
-          {/* Out of Stock */}
-          {!product.inStock && (
-            <div className="absolute inset-0 bg-black/50 flex items-center justify-center rounded-t-lg">
-              <span className="text-white text-xs font-bold bg-black/70 px-3 py-1.5 rounded">
-                Out of Stock
-              </span>
-            </div>
-          )}
-        </div>
-
-        {/* Content */}
-        <div className="p-4 flex flex-col flex-grow">
-          {/* Category */}
-          {product.category && (
-            <p className="text-xs text-[#696969] uppercase tracking-wider mb-1">
-              {product.category}
-            </p>
-          )}
-
-          {/* Name */}
-          <Link to={`/products/${product.slug}`} className="flex-grow group">
-            <h3 className="font-bold text-[#333333] text-lg leading-tight line-clamp-2 group-hover:text-[#6B8E23] transition-colors">
-              {product.name}
-            </h3>
-          </Link>
-
-          {/* Rating */}
-          {product.rating && (
-            <div className="flex items-center gap-1 mt-2">
-              <div className="flex text-yellow-500 text-sm">
-                {"★".repeat(Math.floor(product.rating))}
-                {"☆".repeat(5 - Math.floor(product.rating))}
-              </div>
-              {product.reviewCount && (
-                <span className="text-[#696969] text-xs ml-1">
-                  ({product.reviewCount})
-                </span>
-              )}
-            </div>
-          )}
-
-          {/* Price */}
-          <div className="flex items-center gap-2 mt-3">
-            <span className="text-[#DC143C] font-bold text-lg">{product.price}</span>
-            {product.originalPrice && (
-              <span className="text-[#696969] line-through text-sm">
-                {product.originalPrice}
-              </span>
-            )}
-          </div>
-
-          {/* Add to Cart */}
-          <button
-            onClick={handleAddToCart}
-            disabled={!product.inStock}
-            className="w-full bg-[#6B8E23] hover:bg-[#5A7A1A] disabled:bg-[#E5E5E5] text-white font-semibold py-2.5 rounded text-sm mt-3 transition-colors duration-200"
-          >
-            {product.inStock ? "Add to Cart" : "Out of Stock"}
-          </button>
         </div>
       </div>
 
@@ -247,14 +255,14 @@ const ProductCard: React.FC<ProductCardProps> = ({
             
             {/* Modal Header */}
             <div className="flex justify-between items-center p-6 border-b border-[#E5E5E5]">
-              <h2 className="text-2xl font-bold text-[#333333]">Quick View</h2>
+              <h2 className="text-2xl font-bold text-[#222222]">Quick View</h2>
               <button
                 onClick={closeModal}
-                className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-[#F5F5DC] transition-colors duration-200"
+                className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-[#f8f8f8] transition-colors duration-200"
                 aria-label="Close modal"
               >
                 <svg
-                  className="w-6 h-6 text-[#696969]"
+                  className="w-6 h-6 text-[#666666]"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -288,13 +296,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
                   {/* Product Name & Badge */}
                   <div className="flex items-start justify-between">
                     <div>
-                      <h1 className="text-3xl font-bold text-[#333333] mb-2">
+                      <h1 className="text-3xl font-bold text-[#222222] mb-2">
                         {product.name}
                       </h1>
                       {product.badge && (
-                        <span className={`px-3 py-1 text-sm font-bold text-white rounded ${
-                          product.badge === "Hot" || product.badge === "Sale"
-                            ? "bg-[#DC143C]"
+                        <span className={`px-3 py-1 text-sm font-bold text-white rounded-lg ${
+                          product.badge === "Hot" || product.badge === "Sale" || product.badge === "31% off" || product.badge === "29% off"
+                            ? "bg-[#6B8E23]"
                             : "bg-[#6B8E23]"
                         }`}>
                           {product.badge}
@@ -306,12 +314,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
                   {/* Rating */}
                   {product.rating && (
                     <div className="flex items-center space-x-2">
-                      <div className="flex text-yellow-500 text-lg">
+                      <div className="flex text-[#6B8E23] text-lg">
                         {"★".repeat(Math.floor(product.rating))}
                         {"☆".repeat(5 - Math.floor(product.rating))}
                       </div>
                       {product.reviewCount && (
-                        <span className="text-[#696969] text-sm">
+                        <span className="text-[#666666] text-sm">
                           ({product.reviewCount} reviews)
                         </span>
                       )}
@@ -320,11 +328,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
                   {/* Price */}
                   <div className="flex items-center space-x-3">
-                    <span className="text-3xl font-bold text-[#DC143C]">
+                    <span className="text-3xl font-bold text-[#6B8E23]">
                       {product.price}
                     </span>
                     {product.originalPrice && (
-                      <span className="text-xl text-[#696969] line-through">
+                      <span className="text-xl text-[#888888] line-through">
                         {product.originalPrice}
                       </span>
                     )}
@@ -332,7 +340,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
                   {/* Short Description */}
                   <div className="border-t border-b border-[#E5E5E5] py-4">
-                    <p className="text-[#696969] leading-relaxed">
+                    <p className="text-[#666666] leading-relaxed">
                       {product.description}
                     </p>
                   </div>
@@ -340,12 +348,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
                   {/* Quick Info */}
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     <div className="flex items-center space-x-2">
-                      <span className="font-semibold text-[#333333]">Category:</span>
-                      <span className="text-[#696969]">{product.category}</span>
+                      <span className="font-semibold text-[#222222]">Category:</span>
+                      <span className="text-[#666666]">{product.category}</span>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <span className="font-semibold text-[#333333]">Weight:</span>
-                      <span className="text-[#696969]">{product.weight}</span>
+                      <span className="font-semibold text-[#222222]">Weight:</span>
+                      <span className="text-[#666666]">{product.weight}</span>
                     </div>
                   </div>
 
@@ -354,7 +362,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                     <Link
                       to={`/products/${product.slug}`}
                       onClick={closeModal}
-                      className="flex-1 bg-[#6B8E23] hover:bg-[#5A7A1A] text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 text-center"
+                      className="flex-1 bg-[#222222] hover:bg-black text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 text-center"
                     >
                       View Details
                     </Link>
@@ -364,7 +372,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                         closeModal();
                       }}
                       disabled={!product.inStock}
-                      className="flex-1 bg-[#DC143C] hover:bg-[#C1121F] text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                      className="flex-1 bg-[#6B8E23] hover:bg-[#5A7A1A] text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 disabled:bg-gray-400 disabled:cursor-not-allowed"
                     >
                       Add to Cart
                     </button>
@@ -380,7 +388,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
 };
 
 export const defaultProducts: Product[] = [
-  // ... (your existing products array remains the same)
   {
     id: 1,
     name: "Red beans",
@@ -388,7 +395,6 @@ export const defaultProducts: Product[] = [
     image: "🫘",
     rating: 4.5,
     reviewCount: 128,
-    badge: "Hot",
     inStock: true,
     isFavorite: false,
     slug: "red-beans",
@@ -411,7 +417,6 @@ export const defaultProducts: Product[] = [
     image: "🌰",
     rating: 4.8,
     reviewCount: 95,
-    badge: "Organic",
     inStock: true,
     isFavorite: false,
     slug: "almonds-whole",
@@ -435,7 +440,7 @@ export const defaultProducts: Product[] = [
     image: "🌼",
     rating: 4.3,
     reviewCount: 76,
-    badge: "Sale",
+    badge: "31% off",
     inStock: true,
     isFavorite: false,
     slug: "mogra-kesar",
@@ -459,7 +464,7 @@ export const defaultProducts: Product[] = [
     image: "✨",
     rating: 4.6,
     reviewCount: 201,
-    badge: "Hot",
+    badge: "29% off",
     inStock: true,
     isFavorite: false,
     slug: "star-anise",
@@ -497,124 +502,7 @@ export const defaultProducts: Product[] = [
     },
     images: ["🌶️", "🌶️", "🌶️"]
   },
-  {
-    id: 6,
-    name: "Organic quinoa",
-    price: "€28.00",
-    originalPrice: "€35.00",
-    image: "🌾",
-    rating: 4.7,
-    reviewCount: 156,
-    badge: "New",
-    inStock: true,
-    isFavorite: false,
-    slug: "organic-quinoa",
-    description: "Premium organic quinoa, packed with protein and essential amino acids. Perfect for healthy meals and salads.",
-    category: "Grains",
-    weight: "400g",
-    ingredients: "100% Organic Quinoa",
-    nutritionalInfo: {
-      protein: "14g",
-      carbs: "64g",
-      fat: "6g",
-      fiber: "7g"
-    },
-    images: ["🌾", "🌾", "🌾"]
-  },
-  {
-    id: 7,
-    name: "Cashew nuts",
-    price: "€42.00",
-    image: "🥜",
-    rating: 4.9,
-    reviewCount: 203,
-    badge: "Organic",
-    inStock: true,
-    isFavorite: false,
-    slug: "cashew-nuts",
-    description: "Creamy and delicious cashew nuts, perfect for snacking, cooking, or making dairy-free alternatives.",
-    category: "Nuts",
-    weight: "300g",
-    ingredients: "100% Organic Cashew Nuts",
-    nutritionalInfo: {
-      protein: "18g",
-      carbs: "30g",
-      fat: "44g",
-      fiber: "3g"
-    },
-    images: ["🥜", "🥜", "🥜"]
-  },
-  {
-    id: 8,
-    name: "Turmeric powder",
-    price: "€12.00",
-    originalPrice: "€18.00",
-    image: "🟡",
-    rating: 4.4,
-    reviewCount: 178,
-    badge: "Sale",
-    inStock: true,
-    isFavorite: false,
-    slug: "turmeric-powder",
-    description: "Pure turmeric powder with vibrant color and rich flavor. Known for its anti-inflammatory properties.",
-    category: "Spices & Herbs",
-    weight: "100g",
-    ingredients: "100% Pure Turmeric",
-    nutritionalInfo: {
-      protein: "8g",
-      carbs: "65g",
-      fat: "10g",
-      fiber: "21g"
-    },
-    images: ["🟡", "🟡", "🟡"]
-  },
-  {
-    id: 9,
-    name: "Organic honey",
-    price: "€24.00",
-    image: "🍯",
-    rating: 4.8,
-    reviewCount: 267,
-    badge: "Organic",
-    inStock: true,
-    isFavorite: false,
-    slug: "organic-honey",
-    description: "Pure organic honey with natural sweetness and health benefits. Perfect for teas, baking, and natural remedies.",
-    category: "Sweeteners",
-    weight: "500g",
-    ingredients: "100% Organic Honey",
-    nutritionalInfo: {
-      protein: "0.3g",
-      carbs: "82g",
-      fat: "0g",
-      fiber: "0.2g"
-    },
-    images: ["🍯", "🍯", "🍯"]
-  },
-  {
-    id: 10,
-    name: "Black pepper",
-    price: "€15.00",
-    originalPrice: "€22.00",
-    image: "⚫",
-    rating: 4.5,
-    reviewCount: 189,
-    badge: "Hot",
-    inStock: true,
-    isFavorite: false,
-    slug: "black-pepper",
-    description: "Freshly ground black pepper with robust flavor and aroma. Essential for enhancing any dish.",
-    category: "Spices & Herbs",
-    weight: "80g",
-    ingredients: "100% Black Pepper Corns",
-    nutritionalInfo: {
-      protein: "10g",
-      carbs: "64g",
-      fat: "3g",
-      fiber: "25g"
-    },
-    images: ["⚫", "⚫", "⚫"]
-  }
+  
 ];
 
 export default ProductCard;

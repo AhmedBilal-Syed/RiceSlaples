@@ -130,15 +130,15 @@ const Categories: React.FC<CategoriesProps> = ({
   }, []);
 
   return (
-    <section className="py-16 lg:py-20">
+    <section className="py-16 lg:py-20 bg-white">
       <div className="container mx-auto px-4 sm:px-6">
         {/* Section Header */}
         <div className="text-center mb-12 lg:mb-16 max-w-3xl mx-auto">
-          <h2 className="text-3xl lg:text-4xl font-bold text-[#333333] mb-4 tracking-normal">
+          <h2 className="text-3xl lg:text-4xl font-bold text-[#222222] mb-4 tracking-normal">
             {title}
           </h2>
           {subtitle && (
-            <p className="text-[#696969] text-lg max-w-2xl mx-auto">
+            <p className="text-[#666666] text-lg max-w-2xl mx-auto">
               {subtitle}
             </p>
           )}
@@ -150,7 +150,7 @@ const Categories: React.FC<CategoriesProps> = ({
           {showLeftArrow && (
             <button
               onClick={scrollLeft}
-              className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-white/90 hover:bg-white text-[#6B8E23] w-8 h-8 sm:w-10 sm:h-10 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-xl -ml-2 sm:-ml-4"
+              className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-white/90 hover:bg-white text-[#222222] w-8 h-8 sm:w-10 sm:h-10 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-xl -ml-2 sm:-ml-4"
               aria-label="Scroll left"
             >
               <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -188,7 +188,7 @@ const Categories: React.FC<CategoriesProps> = ({
           {showRightArrow && (
             <button
               onClick={scrollRight}
-              className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-white/90 hover:bg-white text-[#6B8E23] w-8 h-8 sm:w-10 sm:h-10 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-xl -mr-2 sm:-mr-4"
+              className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-white/90 hover:bg-white text-[#222222] w-8 h-8 sm:w-10 sm:h-10 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-xl -mr-2 sm:-mr-4"
               aria-label="Scroll right"
             >
               <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -233,7 +233,7 @@ const CategoryCard: React.FC<{ category: Category; index: number }> = ({ categor
     >
       <Link
         to={category.link}
-        className="group block text-center p-4 sm:p-6 rounded-xl bg-[#F5F5DC] border border-[#E5E5E5] hover:border-[#6B8E23] shadow-sm hover:shadow-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#6B8E23] focus:ring-opacity-50 hover:scale-105"
+        className="group block text-center p-4 sm:p-6 rounded-xl bg-[#fff9f0] border border-[#f0f0f0] hover:border-[#ff9933] shadow-sm hover:shadow-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#ff9933] focus:ring-opacity-50 hover:scale-105"
         aria-label={`Browse ${category.name} category with ${category.productCount}`}
       >
         <div className="relative mb-4 sm:mb-6">
@@ -250,18 +250,18 @@ const CategoryCard: React.FC<{ category: Category; index: number }> = ({ categor
               {category.icon}
             </span>
           </div>
-          <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-6 h-0.5 bg-[#6B8E23] rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:w-8"></div>
+          <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-6 h-0.5 bg-[#ff9933] rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:w-8"></div>
         </div>
 
         <div className="space-y-2 sm:space-y-3">
-          <h3 className="font-semibold text-[#333333] text-sm sm:text-base leading-tight group-hover:text-[#6B8E23] transition-colors duration-300">
+          <h3 className="font-semibold text-[#222222] text-sm sm:text-base leading-tight group-hover:text-[#ff9933] transition-colors duration-300">
             {category.name}
           </h3>
-          <p className="text-[#696969] font-medium text-xs sm:text-sm">{category.productCount}</p>
+          <p className="text-[#666666] font-medium text-xs sm:text-sm">{category.productCount}</p>
           <div className="flex justify-center pt-1 sm:pt-2">
-            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-white group-hover:bg-[#6B8E23] flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:shadow-md">
+            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-white group-hover:bg-[#222222] flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:shadow-md">
               <svg
-                className="w-2 h-2 sm:w-3 sm:h-3 text-[#696969] group-hover:text-white transition-colors duration-300 transform group-hover:translate-x-0.5 sm:group-hover:translate-x-1"
+                className="w-2 h-2 sm:w-3 sm:h-3 text-[#666666] group-hover:text-white transition-colors duration-300 transform group-hover:translate-x-0.5 sm:group-hover:translate-x-1"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"

@@ -104,7 +104,7 @@ const AuthPopup: React.FC<AuthPopupProps> = ({ isOpen, onClose, initialMode = "l
                       name="firstName"
                       value={formData.firstName}
                       onChange={handleInputChange}
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#6B8E23] focus:border-[#6B8E23] focus:outline-none transition-colors"
+                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#cf5923] focus:border-[#cf5923] focus:outline-none transition-colors"
                       placeholder="John"
                     />
                   </div>
@@ -120,7 +120,7 @@ const AuthPopup: React.FC<AuthPopupProps> = ({ isOpen, onClose, initialMode = "l
                       name="lastName"
                       value={formData.lastName}
                       onChange={handleInputChange}
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#6B8E23] focus:border-[#6B8E23] focus:outline-none transition-colors"
+                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#cf5923] focus:border-[#cf5923] focus:outline-none transition-colors"
                       placeholder="Doe"
                     />
                   </div>
@@ -139,7 +139,7 @@ const AuthPopup: React.FC<AuthPopupProps> = ({ isOpen, onClose, initialMode = "l
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#6B8E23] focus:border-[#6B8E23] focus:outline-none transition-colors"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#cf5923] focus:border-[#cf5923]focus:outline-none transition-colors"
                   placeholder="your@email.com"
                 />
               </div>
@@ -156,7 +156,7 @@ const AuthPopup: React.FC<AuthPopupProps> = ({ isOpen, onClose, initialMode = "l
                   name="password"
                   value={formData.password}
                   onChange={handleInputChange}
-                  className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#6B8E23] focus:border-[#6B8E23] focus:outline-none transition-colors"
+                  className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#cf5923] focus:border-[#cf5923] focus:outline-none transition-colors"
                   placeholder="••••••••"
                 />
                 <button
@@ -181,7 +181,7 @@ const AuthPopup: React.FC<AuthPopupProps> = ({ isOpen, onClose, initialMode = "l
                     name="confirmPassword"
                     value={formData.confirmPassword}
                     onChange={handleInputChange}
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#6B8E23] focus:border-[#6B8E23] focus:outline-none transition-colors"
+                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#cf5923] focus:border-[#cf5923] focus:outline-none transition-colors"
                     placeholder="••••••••"
                   />
                 </div>
@@ -193,11 +193,11 @@ const AuthPopup: React.FC<AuthPopupProps> = ({ isOpen, onClose, initialMode = "l
                 <label className="flex items-center">
                   <input
                     type="checkbox"
-                    className="w-4 h-4 text-[#6B8E23] border-gray-300 rounded focus:ring-[#6B8E23]"
+                    className="w-4 h-4 text-[#cf5923] border-gray-300 rounded "
                   />
                   <span className="ml-2 text-sm text-gray-600">Remember me</span>
                 </label>
-                <button type="button" className="text-sm text-[#6B8E23] hover:text-[#5A7A1A] font-medium">
+                <button type="button" className="text-sm text-[#cf5923] hover:text-[#cf5923] font-medium">
                   Forgot password?
                 </button>
               </div>
@@ -205,7 +205,7 @@ const AuthPopup: React.FC<AuthPopupProps> = ({ isOpen, onClose, initialMode = "l
 
             <button
               type="submit"
-              className="w-full bg-gradient-to-r from-[#6B8E23] to-[#5A7A1A] text-white py-4 rounded-xl font-semibold hover:shadow-lg transform hover:scale-[1.02] transition-all duration-200"
+              className="w-full bg-gradient-to-r from-[#cf5923] to-[#cf5923] text-white py-4 rounded-xl font-semibold hover:shadow-lg transform hover:scale-[1.02] transition-all duration-200"
             >
               {mode === "login" ? "Sign In" : "Create Account"}
             </button>
@@ -247,7 +247,7 @@ const AuthPopup: React.FC<AuthPopupProps> = ({ isOpen, onClose, initialMode = "l
               <button
                 type="button"
                 onClick={switchMode}
-                className="text-[#6B8E23] hover:text-[#5A7A1A] font-semibold transition-colors"
+                className="text-[#cf5923] hover:text-[#e05210] font-semibold transition-colors"
               >
                 {mode === "login" ? "Sign up" : "Sign in"}
               </button>

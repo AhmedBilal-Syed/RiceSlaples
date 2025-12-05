@@ -100,7 +100,7 @@ const SlideInCart = ({ isOpen, onClose, cartItems, updateQuantity, removeItem, c
           </div>
         ) : (
           <div className="p-4 space-y-3">
-            {cartItems.map((item) => (
+            {cartItems.map((item: { id: React.Key | null | undefined; image: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined; name: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined; size: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined; brand: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined; price: number; quantity: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined; }) => (
               <div key={item.id} className="bg-gray-50 rounded-lg p-3 border border-gray-200">
                 <div className="flex gap-3">
                   <div className="w-16 h-16 bg-green-100 rounded-lg flex items-center justify-center text-xl flex-shrink-0">
@@ -115,7 +115,7 @@ const SlideInCart = ({ isOpen, onClose, cartItems, updateQuantity, removeItem, c
                     {item.brand && (
                       <p className="text-gray-600 text-xs">Brand: {item.brand}</p>
                     )}
-                    <p className="text-green-600 font-semibold text-sm mt-1">
+                    <p className="text-[#cf5923] font-semibold text-sm mt-1">
                       ${item.price.toFixed(2)} CAD
                     </p>
                     
@@ -176,7 +176,7 @@ const SlideInCart = ({ isOpen, onClose, cartItems, updateQuantity, removeItem, c
             </div>
             <div className="flex justify-between text-lg font-semibold border-t pt-2">
               <span>Total:</span>
-              <span className="text-green-600">${total.toFixed(2)} CAD</span>
+              <span className=" text-[#ec0e0e]">${total.toFixed(2)} CAD</span>
             </div>
           </div>
           
@@ -184,7 +184,7 @@ const SlideInCart = ({ isOpen, onClose, cartItems, updateQuantity, removeItem, c
           <div className="space-y-2">
             <button
               onClick={handleQuickCheckout}
-              className="block w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 text-center font-medium transition-colors duration-200 shadow-sm"
+              className="block w-full bg-[#cf5923] text-white py-3 rounded-lg hover:bg-green-700 text-center font-medium transition-colors duration-200 shadow-sm"
             >
               Quick Checkout
             </button>
@@ -210,7 +210,7 @@ const SlideInCart = ({ isOpen, onClose, cartItems, updateQuantity, removeItem, c
           {/* Security Badge */}
           <div className="text-center">
             <div className="flex items-center justify-center gap-2 text-xs text-gray-500">
-              <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 text-[#cf5923]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
               </svg>
               Secure checkout

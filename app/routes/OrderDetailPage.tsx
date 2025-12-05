@@ -68,7 +68,7 @@ export default function OrderDetailPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'Delivered': return 'bg-green-100 text-green-800';
+      case 'Delivered': return 'bg-[#b91d08]/10 text-[#b91d08]';
       case 'Processing': return 'bg-blue-100 text-blue-800';
       case 'Shipped': return 'bg-purple-100 text-purple-800';
       case 'Cancelled': return 'bg-red-100 text-red-800';
@@ -96,14 +96,14 @@ export default function OrderDetailPage() {
             {/* Dynamic Header */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
               <div>
-                <h1 className="text-3xl font-bold text-gray-800">
+                <h1 className="text-3xl font-bold text-gray-900">
                   Order #{order.id}
                 </h1>
-                <p className="text-gray-600 mt-2">Placed on {order.date}</p>
+                <p className="text-gray-700 mt-2">Placed on {order.date}</p>
               </div>
               <Link
                 to="/account"
-                className="inline-flex items-center text-green-600 hover:text-green-700 font-medium mt-4 sm:mt-0"
+                className="inline-flex items-center text-[#b91d08] hover:text-[#9e1807] font-bold mt-4 sm:mt-0"
               >
                 <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -116,10 +116,10 @@ export default function OrderDetailPage() {
               {/* Main Content */}
               <div className="lg:col-span-2 space-y-6">
                 {/* Order Status */}
-                <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
                   <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-xl font-bold text-gray-800">Order Status</h2>
-                    <span className={`px-4 py-2 rounded-full text-sm font-medium ${getStatusColor(order.status)}`}>
+                    <h2 className="text-xl font-bold text-gray-900">Order Status</h2>
+                    <span className={`px-4 py-2 rounded-full text-sm font-bold ${getStatusColor(order.status)}`}>
                       {getStatusIcon(order.status)} {order.status}
                     </span>
                   </div>
@@ -130,17 +130,17 @@ export default function OrderDetailPage() {
                       <div key={index} className="flex items-start space-x-4">
                         <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${
                           index <= order.tracking.findIndex(s => s.status === order.status) 
-                            ? 'bg-green-500 text-white' 
+                            ? 'bg-[#b91d08] text-white' 
                             : 'bg-gray-300 text-gray-600'
                         }`}>
                           {getStatusIcon(step.status)}
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start">
-                            <h3 className="font-semibold text-gray-800 text-lg">{step.status}</h3>
-                            <span className="text-sm text-gray-500 mt-1 sm:mt-0">{step.date}</span>
+                            <h3 className="font-bold text-gray-900 text-lg">{step.status}</h3>
+                            <span className="text-sm text-gray-600 mt-1 sm:mt-0">{step.date}</span>
                           </div>
-                          <p className="text-gray-600 mt-1">{step.description}</p>
+                          <p className="text-gray-700 mt-1">{step.description}</p>
                         </div>
                       </div>
                     ))}
@@ -148,25 +148,25 @@ export default function OrderDetailPage() {
                 </div>
 
                 {/* Order Items */}
-                <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                  <h2 className="text-xl font-bold text-gray-800 mb-6">Order Items</h2>
+                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                  <h2 className="text-xl font-bold text-gray-900 mb-6">Order Items</h2>
                   <div className="space-y-6">
                     {order.items.map((item) => (
                       <div key={item.id} className="flex flex-col sm:flex-row sm:items-center justify-between py-4 border-b border-gray-100 last:border-b-0">
                         <div className="flex items-center space-x-4 mb-4 sm:mb-0">
-                          <div className="w-20 h-20 bg-green-50 rounded-lg flex items-center justify-center text-2xl">
+                          <div className="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center text-2xl">
                             {item.image}
                           </div>
                           <div className="flex-1">
-                            <h3 className="font-semibold text-gray-800 text-lg">{item.name}</h3>
-                            <p className="text-gray-600 text-sm">Size: {item.size}</p>
-                            <p className="text-gray-600 text-sm">Brand: {item.brand}</p>
-                            <p className="text-gray-600 text-sm">Quantity: {item.quantity}</p>
+                            <h3 className="font-bold text-gray-900 text-lg">{item.name}</h3>
+                            <p className="text-gray-700 text-sm">Size: {item.size}</p>
+                            <p className="text-gray-700 text-sm">Brand: {item.brand}</p>
+                            <p className="text-gray-700 text-sm">Quantity: {item.quantity}</p>
                           </div>
                         </div>
                         <div className="text-right">
-                          <p className="font-semibold text-gray-800 text-xl">${item.price.toFixed(2)}</p>
-                          <p className="text-gray-600 text-sm">${(item.price * item.quantity).toFixed(2)} total</p>
+                          <p className="font-bold text-gray-900 text-xl">${item.price.toFixed(2)}</p>
+                          <p className="text-gray-700 text-sm">${(item.price * item.quantity).toFixed(2)} total</p>
                         </div>
                       </div>
                     ))}
@@ -177,35 +177,35 @@ export default function OrderDetailPage() {
               {/* Sidebar */}
               <div className="space-y-6">
                 {/* Order Summary */}
-                <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                  <h2 className="text-xl font-bold text-gray-800 mb-4">Order Summary</h2>
+                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                  <h2 className="text-xl font-bold text-gray-900 mb-4">Order Summary</h2>
                   <div className="space-y-3">
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Subtotal</span>
-                      <span className="font-semibold">${order.subtotal.toFixed(2)}</span>
+                      <span className="text-gray-700">Subtotal</span>
+                      <span className="font-bold text-gray-900">${order.subtotal.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Shipping</span>
-                      <span className="font-semibold">${order.shipping.toFixed(2)}</span>
+                      <span className="text-gray-700">Shipping</span>
+                      <span className="font-bold text-gray-900">${order.shipping.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Tax</span>
-                      <span className="font-semibold">${order.tax.toFixed(2)}</span>
+                      <span className="text-gray-700">Tax</span>
+                      <span className="font-bold text-gray-900">${order.tax.toFixed(2)}</span>
                     </div>
                     <div className="border-t border-gray-200 pt-3">
                       <div className="flex justify-between text-lg font-bold">
-                        <span>Total</span>
-                        <span className="text-green-600">${order.total.toFixed(2)}</span>
+                        <span className="text-gray-900">Total</span>
+                        <span className="text-[#b91d08]">${order.total.toFixed(2)}</span>
                       </div>
                     </div>
                   </div>
                 </div>
 
                 {/* Shipping Information */}
-                <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                  <h2 className="text-xl font-bold text-gray-800 mb-4">Shipping Address</h2>
-                  <div className="space-y-2 text-sm text-gray-600">
-                    <p className="font-semibold text-gray-800">{order.shippingAddress.name}</p>
+                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                  <h2 className="text-xl font-bold text-gray-900 mb-4">Shipping Address</h2>
+                  <div className="space-y-2 text-sm text-gray-700">
+                    <p className="font-bold text-gray-900">{order.shippingAddress.name}</p>
                     <p>{order.shippingAddress.street}</p>
                     <p>{order.shippingAddress.city}, {order.shippingAddress.state} {order.shippingAddress.zipCode}</p>
                     <p>{order.shippingAddress.country}</p>
@@ -213,22 +213,22 @@ export default function OrderDetailPage() {
                 </div>
 
                 {/* Payment Information */}
-                <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                  <h2 className="text-xl font-bold text-gray-800 mb-4">Payment Method</h2>
-                  <p className="text-gray-600">{order.paymentMethod}</p>
+                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                  <h2 className="text-xl font-bold text-gray-900 mb-4">Payment Method</h2>
+                  <p className="text-gray-700">{order.paymentMethod}</p>
                 </div>
 
                 {/* Actions */}
-                <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                  <h2 className="text-xl font-bold text-gray-800 mb-4">Order Actions</h2>
+                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                  <h2 className="text-xl font-bold text-gray-900 mb-4">Order Actions</h2>
                   <div className="space-y-3">
-                    <button className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition-colors font-medium">
+                    <button className="w-full bg-[#b91d08] hover:bg-[#9e1807] text-white py-3 rounded-lg transition-colors font-bold">
                       📄 Download Invoice
                     </button>
-                    <button className="w-full border border-green-600 text-green-600 py-3 rounded-lg hover:bg-green-50 transition-colors font-medium">
+                    <button className="w-full border border-[#b91d08] text-[#b91d08] py-3 rounded-lg hover:bg-[#b91d08]/5 transition-colors font-bold">
                       🔄 Reorder Items
                     </button>
-                    <button className="w-full border border-red-300 text-red-600 py-3 rounded-lg hover:bg-red-50 transition-colors font-medium">
+                    <button className="w-full border border-red-300 text-red-600 py-3 rounded-lg hover:bg-red-50 transition-colors font-bold">
                       🚩 Report Problem
                     </button>
                   </div>

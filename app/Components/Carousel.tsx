@@ -23,7 +23,7 @@ const Carousel: React.FC = () => {
   const slides: CarouselSlide[] = [
     {
       id: 1,
-      image: "/rice.png",
+      image: "/rice2.png",
       title: "Sweeter with corn dry-grain",
       subtitle: "Only $29.00 ~ $32.00",
       buttonText: "SHOP NOW",
@@ -32,7 +32,7 @@ const Carousel: React.FC = () => {
     },
     {
       id: 2,
-      image: "/grain.png",
+      image: "/rice2.png",
       title: "A favorite grocery's",
       subtitle: "It's grocery is always fresh!",
       buttonText: "SHOP NOW",
@@ -75,7 +75,7 @@ const Carousel: React.FC = () => {
   };
 
   return (
-    <div className="relative w-full h-[400px] sm:h-[500px] md:h-[600px] overflow-hidden bg-[#F5F5DC]">
+    <div className="relative w-full h-[400px] sm:h-[500px] md:h-[600px] overflow-hidden bg-[#cf5923]">
       {/* Carousel Slides */}
       <div className="relative w-full h-full">
         {slides.map((slide, index) => (
@@ -96,18 +96,18 @@ const Carousel: React.FC = () => {
                 )}
                 
                 {/* Title & Subtitle */}
-                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[#333333] mb-3 md:mb-4 leading-tight">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 md:mb-4 leading-tight">
                   {slide.title}
                 </h1>
                 
                 {slide.subtitle && (
-                  <p className="text-base sm:text-lg md:text-xl text-[#6B8E23] mb-3 md:mb-4 font-semibold">
+                  <p className="text-base sm:text-lg md:text-xl text-white font-semibold mb-3 md:mb-4">
                     {slide.subtitle}
                   </p>
                 )}
                 
                 {slide.description && (
-                  <p className="text-sm sm:text-base text-[#696969] mb-4 md:mb-6 hidden sm:block">
+                  <p className="text-sm sm:text-base text-white/90 mb-4 md:mb-6 hidden sm:block">
                     {slide.description}
                   </p>
                 )}
@@ -116,12 +116,12 @@ const Carousel: React.FC = () => {
                 {(slide.price || slide.originalPrice) && (
                   <div className="flex items-center justify-center md:justify-start space-x-2 md:space-x-3 mb-4 md:mb-6">
                     {slide.price && (
-                      <span className="text-xl sm:text-2xl md:text-3xl font-bold text-[#DC143C]">
+                      <span className="text-xl sm:text-2xl md:text-3xl font-bold text-white">
                         {slide.price}
                       </span>
                     )}
                     {slide.originalPrice && (
-                      <span className="text-base sm:text-lg md:text-xl text-[#696969] line-through">
+                      <span className="text-base sm:text-lg md:text-xl text-white/80 line-through">
                         {slide.originalPrice}
                       </span>
                     )}
@@ -132,7 +132,7 @@ const Carousel: React.FC = () => {
                 <div className="flex flex-col sm:flex-row items-center gap-3 md:gap-4">
                   <Link
                     to={slide.buttonLink}
-                    className="inline-flex items-center bg-[#6B8E23] hover:bg-[#5A7A1A] text-white font-bold py-3 px-6 md:py-4 md:px-8 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg text-sm md:text-base"
+                    className="inline-flex items-center bg-[#222222] hover:bg-black text-white font-bold py-3 px-6 md:py-4 md:px-8 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg text-sm md:text-base"
                   >
                     {slide.buttonText}
                     <svg 
@@ -166,7 +166,7 @@ const Carousel: React.FC = () => {
               <div className="w-full md:w-1/2 lg:w-1/2 flex justify-center items-center order-1 md:order-2 mb-4 md:mb-0">
                 <div className="relative">
                   {/* Product Image */}
-                  <div className="w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-full flex items-center justify-center shadow-2xl overflow-hidden bg-white border-4 border-white">
+                  <div className="w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-full flex items-center justify-center shadow-2xl overflow-hidden bg-white/10 backdrop-blur-sm">
                     <img 
                       src={slide.image}
                       alt={slide.title}
@@ -181,19 +181,19 @@ const Carousel: React.FC = () => {
                     />
                     {/* Fallback placeholder */}
                     <div 
-                      className="w-full h-full bg-gradient-to-br from-[#6B8E23]/20 to-[#F5F5DC] rounded-full flex items-center justify-center hidden"
+                      className="w-full h-full bg-gradient-to-br from-white/20 to-white/10 rounded-full flex items-center justify-center hidden"
                       style={{ display: 'none' }}
                     >
-                      <span className="text-[#696969] text-sm sm:text-lg">Product Image</span>
+                      <span className="text-white text-sm sm:text-lg">Product Image</span>
                     </div>
                   </div>
                   
                   {/* Floating elements - hidden on mobile, shown on tablet+ */}
                   <div className="absolute -top-2 -right-2 sm:-top-4 sm:-right-4 bg-white rounded-full w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 flex items-center justify-center shadow-lg hidden sm:flex">
-                    <span className="text-[#6B8E23] font-bold text-xs sm:text-sm">Fresh</span>
+                    <span className="text-[#ff9933] font-bold text-xs sm:text-sm">Fresh</span>
                   </div>
-                  <div className="absolute -bottom-2 -left-2 sm:-bottom-4 sm:-left-4 bg-[#6B8E23] rounded-full w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 flex items-center justify-center shadow-lg hidden sm:flex">
-                    <span className="text-white font-bold text-xs">100% Organic</span>
+                  <div className="absolute -bottom-2 -left-2 sm:-bottom-4 sm:-left-4 bg-[#222222] rounded-full w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 flex items-center justify-center shadow-lg hidden sm:flex">
+                    <span className="text-white font-bold text-xs"> Organic</span>
                   </div>
                 </div>
               </div>
@@ -205,7 +205,7 @@ const Carousel: React.FC = () => {
       {/* Navigation Arrows */}
       <button
         onClick={prevSlide}
-        className="absolute left-2 sm:left-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white text-[#6B8E23] w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 z-20"
+        className="absolute left-2 sm:left-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white text-[#222222] w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 z-20"
         aria-label="Previous slide"
       >
         <svg className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -215,7 +215,7 @@ const Carousel: React.FC = () => {
 
       <button
         onClick={nextSlide}
-        className="absolute right-2 sm:right-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white text-[#6B8E23] w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 z-20"
+        className="absolute right-2 sm:right-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white text-[#222222] w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 z-20"
         aria-label="Next slide"
       >
         <svg className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -231,8 +231,8 @@ const Carousel: React.FC = () => {
             onClick={() => goToSlide(index)}
             className={`transition-all duration-300 ${
               index === currentSlide 
-                ? "bg-[#6B8E23] w-6 sm:w-8 h-2 sm:h-3 rounded-full" 
-                : "bg-white/70 hover:bg-white w-2 h-2 sm:w-3 sm:h-3 rounded-full"
+                ? "bg-white w-6 sm:w-8 h-2 sm:h-3 rounded-full" 
+                : "bg-white/50 hover:bg-white/80 w-2 h-2 sm:w-3 sm:h-3 rounded-full"
             }`}
             aria-label={`Go to slide ${index + 1}`}
           />
@@ -240,9 +240,9 @@ const Carousel: React.FC = () => {
       </div>
 
       {/* Progress Bar */}
-      <div className="absolute bottom-0 left-0 w-full h-1 bg-gray-200/50 z-10">
+      <div className="absolute bottom-0 left-0 w-full h-1 bg-white/20 z-10">
         <div 
-          className="h-full bg-[#6B8E23] transition-all duration-5000 ease-linear"
+          className="h-full bg-white transition-all duration-5000 ease-linear"
           style={{ 
             width: isAutoPlaying ? '100%' : '0%',
           }}
@@ -250,9 +250,9 @@ const Carousel: React.FC = () => {
       </div>
 
       {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
+      <div className="absolute inset-0 opacity-10">
         <div className="w-full h-full bg-repeat" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.3'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
         }} />
       </div>
     </div>

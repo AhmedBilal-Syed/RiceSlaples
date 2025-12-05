@@ -153,7 +153,7 @@ export default function CheckoutPage() {
       <Header />
       
       {/* Checkout Progress */}
-      <div className="bg-white border-b">
+      <div className="bg-white border-b border-gray-200">
         <div className="container mx-auto px-4">
           <div className="flex justify-center py-4">
             <div className="flex items-center space-x-8">
@@ -161,20 +161,24 @@ export default function CheckoutPage() {
                 <div key={step} className="flex items-center">
                   <div className={`flex items-center justify-center w-8 h-8 rounded-full ${
                     checkoutStep === step 
-                      ? 'bg-green-600 text-white' 
+                      ? 'bg-[#b91d08] text-white' 
                       : index < ['shipping', 'payment', 'review'].indexOf(checkoutStep)
-                      ? 'bg-green-100 text-green-600'
+                      ? 'bg-[#b91d08]/10 text-[#b91d08] font-bold'
                       : 'bg-gray-200 text-gray-500'
                   }`}>
                     {index + 1}
                   </div>
-                  <span className={`ml-2 font-medium ${
-                    checkoutStep === step ? 'text-green-600' : 'text-gray-500'
+                  <span className={`ml-2 font-bold ${
+                    checkoutStep === step ? 'text-[#b91d08]' : 'text-gray-500'
                   }`}>
                     {step.charAt(0).toUpperCase() + step.slice(1)}
                   </span>
                   {index < 2 && (
-                    <div className="w-12 h-0.5 bg-gray-300 mx-4"></div>
+                    <div className={`w-12 h-0.5 mx-4 ${
+                      index < ['shipping', 'payment', 'review'].indexOf(checkoutStep)
+                      ? 'bg-[#b91d08]/20'
+                      : 'bg-gray-300'
+                    }`}></div>
                   )}
                 </div>
               ))}
@@ -187,15 +191,15 @@ export default function CheckoutPage() {
       <div className="container mx-auto px-4 py-8">
         {checkoutStep === 'shipping' ? (
           <div className="max-w-4xl mx-auto">
-            <h1 className="text-3xl font-bold text-gray-800 mb-8">Shipping Information</h1>
+            <h1 className="text-3xl font-bold text-gray-900 mb-8">Shipping Information</h1>
             
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Shipping Form */}
               <div className="lg:col-span-2">
-                <form onSubmit={handleShippingSubmit} className="bg-white rounded-lg shadow-sm p-6">
+                <form onSubmit={handleShippingSubmit} className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-bold text-gray-900 mb-1">
                         First Name *
                       </label>
                       <input
@@ -203,11 +207,11 @@ export default function CheckoutPage() {
                         required
                         value={shippingInfo.firstName}
                         onChange={(e) => setShippingInfo({...shippingInfo, firstName: e.target.value})}
-                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#b91d08] focus:border-[#b91d08] text-gray-900"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-bold text-gray-900 mb-1">
                         Last Name *
                       </label>
                       <input
@@ -215,14 +219,14 @@ export default function CheckoutPage() {
                         required
                         value={shippingInfo.lastName}
                         onChange={(e) => setShippingInfo({...shippingInfo, lastName: e.target.value})}
-                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#b91d08] focus:border-[#b91d08] text-gray-900"
                       />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-bold text-gray-900 mb-1">
                         Email Address *
                       </label>
                       <input
@@ -230,11 +234,11 @@ export default function CheckoutPage() {
                         required
                         value={shippingInfo.email}
                         onChange={(e) => setShippingInfo({...shippingInfo, email: e.target.value})}
-                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#b91d08] focus:border-[#b91d08] text-gray-900"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-bold text-gray-900 mb-1">
                         Phone Number *
                       </label>
                       <input
@@ -242,13 +246,13 @@ export default function CheckoutPage() {
                         required
                         value={shippingInfo.phone}
                         onChange={(e) => setShippingInfo({...shippingInfo, phone: e.target.value})}
-                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#b91d08] focus:border-[#b91d08] text-gray-900"
                       />
                     </div>
                   </div>
 
                   <div className="mb-6">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-bold text-gray-900 mb-1">
                       Address *
                     </label>
                     <input
@@ -256,13 +260,13 @@ export default function CheckoutPage() {
                       required
                       value={shippingInfo.address}
                       onChange={(e) => setShippingInfo({...shippingInfo, address: e.target.value})}
-                      className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#b91d08] focus:border-[#b91d08] text-gray-900"
                     />
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-bold text-gray-900 mb-1">
                         City *
                       </label>
                       <input
@@ -270,11 +274,11 @@ export default function CheckoutPage() {
                         required
                         value={shippingInfo.city}
                         onChange={(e) => setShippingInfo({...shippingInfo, city: e.target.value})}
-                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#b91d08] focus:border-[#b91d08] text-gray-900"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-bold text-gray-900 mb-1">
                         State/Province *
                       </label>
                       <input
@@ -282,11 +286,11 @@ export default function CheckoutPage() {
                         required
                         value={shippingInfo.state}
                         onChange={(e) => setShippingInfo({...shippingInfo, state: e.target.value})}
-                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#b91d08] focus:border-[#b91d08] text-gray-900"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-bold text-gray-900 mb-1">
                         ZIP/Postal Code *
                       </label>
                       <input
@@ -294,7 +298,7 @@ export default function CheckoutPage() {
                         required
                         value={shippingInfo.zipCode}
                         onChange={(e) => setShippingInfo({...shippingInfo, zipCode: e.target.value})}
-                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#b91d08] focus:border-[#b91d08] text-gray-900"
                       />
                     </div>
                   </div>
@@ -303,13 +307,13 @@ export default function CheckoutPage() {
                     <button
                       type="button"
                       onClick={() => navigate('/cart')}
-                      className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium"
+                      className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-bold transition-colors"
                     >
                       ← Back to Cart
                     </button>
                     <button
                       type="submit"
-                      className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium"
+                      className="px-6 py-3 bg-[#b91d08] hover:bg-[#9e1807] text-white rounded-lg font-bold transition-colors"
                     >
                       Continue to Payment →
                     </button>
@@ -336,15 +340,15 @@ export default function CheckoutPage() {
           </div>
         ) : checkoutStep === 'payment' ? (
           <div className="max-w-4xl mx-auto">
-            <h1 className="text-3xl font-bold text-gray-800 mb-8">Payment Method</h1>
+            <h1 className="text-3xl font-bold text-gray-900 mb-8">Payment Method</h1>
             
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Payment Form */}
               <div className="lg:col-span-2">
-                <form onSubmit={handlePaymentSubmit} className="bg-white rounded-lg shadow-sm p-6">
+                <form onSubmit={handlePaymentSubmit} className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
                   {/* Payment Method Selection */}
                   <div className="mb-6">
-                    <label className="block text-sm font-medium text-gray-700 mb-3">
+                    <label className="block text-sm font-bold text-gray-900 mb-3">
                       Select Payment Method
                     </label>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -357,8 +361,8 @@ export default function CheckoutPage() {
                           key={method.value}
                           className={`flex items-center p-3 border-2 rounded-lg cursor-pointer ${
                             paymentInfo.method === method.value
-                              ? 'border-green-500 bg-green-50'
-                              : 'border-gray-300 hover:border-green-300'
+                              ? 'border-[#b91d08] bg-[#b91d08]/5'
+                              : 'border-gray-300 hover:border-[#b91d08]/50'
                           }`}
                         >
                           <input
@@ -367,9 +371,9 @@ export default function CheckoutPage() {
                             value={method.value}
                             checked={paymentInfo.method === method.value}
                             onChange={(e) => setPaymentInfo({...paymentInfo, method: e.target.value})}
-                            className="text-green-600 focus:ring-green-500"
+                            className="text-[#b91d08] focus:ring-[#b91d08]"
                           />
-                          <span className="ml-2 text-sm font-medium">{method.label}</span>
+                          <span className="ml-2 text-sm font-bold">{method.label}</span>
                         </label>
                       ))}
                     </div>
@@ -379,7 +383,7 @@ export default function CheckoutPage() {
                   {paymentInfo.method === 'card' && (
                     <div className="space-y-4 mb-6">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                        <label className="block text-sm font-bold text-gray-900 mb-1">
                           Card Number *
                         </label>
                         <input
@@ -387,12 +391,12 @@ export default function CheckoutPage() {
                           placeholder="1234 5678 9012 3456"
                           value={paymentInfo.cardNumber}
                           onChange={(e) => setPaymentInfo({...paymentInfo, cardNumber: e.target.value})}
-                          className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                          className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#b91d08] focus:border-[#b91d08] text-gray-900"
                         />
                       </div>
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                          <label className="block text-sm font-bold text-gray-900 mb-1">
                             Expiry Date *
                           </label>
                           <input
@@ -400,11 +404,11 @@ export default function CheckoutPage() {
                             placeholder="MM/YY"
                             value={paymentInfo.expiryDate}
                             onChange={(e) => setPaymentInfo({...paymentInfo, expiryDate: e.target.value})}
-                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#b91d08] focus:border-[#b91d08] text-gray-900"
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                          <label className="block text-sm font-bold text-gray-900 mb-1">
                             CVV *
                           </label>
                           <input
@@ -412,12 +416,12 @@ export default function CheckoutPage() {
                             placeholder="123"
                             value={paymentInfo.cvv}
                             onChange={(e) => setPaymentInfo({...paymentInfo, cvv: e.target.value})}
-                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#b91d08] focus:border-[#b91d08] text-gray-900"
                           />
                         </div>
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                        <label className="block text-sm font-bold text-gray-900 mb-1">
                           Name on Card *
                         </label>
                         <input
@@ -425,7 +429,7 @@ export default function CheckoutPage() {
                           placeholder="John Doe"
                           value={paymentInfo.nameOnCard}
                           onChange={(e) => setPaymentInfo({...paymentInfo, nameOnCard: e.target.value})}
-                          className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                          className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#b91d08] focus:border-[#b91d08] text-gray-900"
                         />
                       </div>
                     </div>
@@ -434,8 +438,8 @@ export default function CheckoutPage() {
                   {/* Pay at Store Notice */}
                   {paymentInfo.method === 'store' && (
                     <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
-                      <h4 className="font-semibold text-yellow-800 mb-2">Pay at Store Instructions</h4>
-                      <p className="text-sm text-yellow-700">
+                      <h4 className="font-bold text-yellow-900 mb-2">Pay at Store Instructions</h4>
+                      <p className="text-sm text-yellow-800">
                         Your items will be reserved for pickup. Please visit the selected stores to complete your payment and collect your orders.
                       </p>
                     </div>
@@ -445,13 +449,13 @@ export default function CheckoutPage() {
                     <button
                       type="button"
                       onClick={() => setCheckoutStep('shipping')}
-                      className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium"
+                      className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-bold transition-colors"
                     >
                       ← Back to Shipping
                     </button>
                     <button
                       type="submit"
-                      className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium"
+                      className="px-6 py-3 bg-[#b91d08] hover:bg-[#9e1807] text-white rounded-lg font-bold transition-colors"
                     >
                       Review Order →
                     </button>
@@ -478,39 +482,39 @@ export default function CheckoutPage() {
           </div>
         ) : checkoutStep === 'review' ? (
           <div className="max-w-4xl mx-auto">
-            <h1 className="text-3xl font-bold text-gray-800 mb-8">Review Your Order</h1>
+            <h1 className="text-3xl font-bold text-gray-900 mb-8">Review Your Order</h1>
             
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Order Review */}
               <div className="lg:col-span-2">
-                <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-                  <h3 className="text-xl font-semibold mb-4">Order Items</h3>
+                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                  <h3 className="text-xl font-bold text-gray-900 mb-4">Order Items</h3>
                   {checkoutItems.map((item: CartItem) => (
                     <div key={item.id} className="flex justify-between items-center border-b border-gray-100 py-4 last:border-b-0">
                       <div className="flex items-center space-x-4">
-                        <div className="w-12 h-12 bg-green-50 rounded-lg flex items-center justify-center">
+                        <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
                           {item.image}
                         </div>
                         <div>
-                          <h4 className="font-medium">{item.name}</h4>
-                          <p className="text-sm text-gray-600">
+                          <h4 className="font-bold text-gray-900 text-sm">{item.name}</h4>
+                          <p className="text-xs text-gray-600">
                             {item.deliveryOption === 'home' ? '🚚 Home Delivery' : '🏪 Store Pickup'}
                             {item.selectedStore && ` • ${item.selectedStore.name}`}
                           </p>
-                          <p className="text-sm text-gray-600">Qty: {item.quantity}</p>
+                          <p className="text-xs text-gray-600">Qty: {item.quantity}</p>
                         </div>
                       </div>
-                      <span className="font-semibold">${(item.price * item.quantity).toFixed(2)}</span>
+                      <span className="font-bold text-gray-900">${(item.price * item.quantity).toFixed(2)}</span>
                     </div>
                   ))}
                 </div>
 
-                <div className="bg-white rounded-lg shadow-sm p-6">
-                  <h3 className="text-xl font-semibold mb-4">Shipping & Payment</h3>
+                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                  <h3 className="text-xl font-bold text-gray-900 mb-4">Shipping & Payment</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <h4 className="font-medium mb-2">Shipping Address</h4>
-                      <p className="text-sm text-gray-600">
+                      <h4 className="font-bold text-gray-900 mb-2">Shipping Address</h4>
+                      <p className="text-sm text-gray-700">
                         {shippingInfo.firstName} {shippingInfo.lastName}<br/>
                         {shippingInfo.address}<br/>
                         {shippingInfo.city}, {shippingInfo.state} {shippingInfo.zipCode}<br/>
@@ -520,8 +524,8 @@ export default function CheckoutPage() {
                       </p>
                     </div>
                     <div>
-                      <h4 className="font-medium mb-2">Payment Method</h4>
-                      <p className="text-sm text-gray-600">
+                      <h4 className="font-bold text-gray-900 mb-2">Payment Method</h4>
+                      <p className="text-sm text-gray-700">
                         {paymentInfo.method === 'card' && '💳 Credit Card'}
                         {paymentInfo.method === 'paypal' && '🔵 PayPal'}
                         {paymentInfo.method === 'store' && '🏪 Pay at Store'}
@@ -543,13 +547,13 @@ export default function CheckoutPage() {
                 />
                 <button
                   onClick={placeOrder}
-                  className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-6 rounded-lg mt-4"
+                  className="w-full bg-[#b91d08] hover:bg-[#9e1807] text-white font-bold py-4 px-6 rounded-lg mt-4 transition-colors"
                 >
                   Place Order
                 </button>
                 <button
                   onClick={() => setCheckoutStep('payment')}
-                  className="w-full border border-gray-300 text-gray-700 py-3 rounded-lg hover:bg-gray-50 font-medium mt-3"
+                  className="w-full border border-gray-300 text-gray-700 py-3 rounded-lg hover:bg-gray-50 font-bold mt-3 transition-colors"
                 >
                   ← Back to Payment
                 </button>
@@ -610,8 +614,8 @@ const OrderSummarySidebar: React.FC<OrderSummaryProps> = ({
   showActions = true 
 }) => {
   return (
-    <div className="bg-white rounded-lg shadow-sm p-6 sticky top-8">
-      <h3 className="text-lg font-semibold mb-4">Order Summary</h3>
+    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 sticky top-8">
+      <h3 className="text-lg font-bold text-gray-900 mb-4">Order Summary</h3>
       
       {/* Items List */}
       {showActions && (
@@ -620,26 +624,26 @@ const OrderSummarySidebar: React.FC<OrderSummaryProps> = ({
             <div key={item.id} className="border-b border-gray-100 pb-3 last:border-b-0">
               <div className="flex justify-between items-start mb-2">
                 <div className="flex-1">
-                  <h4 className="font-medium text-sm">{item.name}</h4>
+                  <h4 className="font-bold text-sm text-gray-900">{item.name}</h4>
                   <p className="text-gray-600 text-xs">Qty: {item.quantity}</p>
-                  <p className="text-green-600 font-semibold text-sm">${item.price.toFixed(2)}</p>
+                  <p className="text-[#b91d08] font-bold text-sm">${item.price.toFixed(2)}</p>
                 </div>
                 <div className="flex space-x-1">
                   <button 
                     onClick={() => onUpdateQuantity?.(item.id, item.quantity - 1)}
-                    className="w-6 h-6 flex items-center justify-center text-xs border rounded"
+                    className="w-6 h-6 flex items-center justify-center text-xs border border-gray-300 rounded hover:bg-gray-100"
                   >
                     -
                   </button>
                   <button 
                     onClick={() => onUpdateQuantity?.(item.id, item.quantity + 1)}
-                    className="w-6 h-6 flex items-center justify-center text-xs border rounded"
+                    className="w-6 h-6 flex items-center justify-center text-xs border border-gray-300 rounded hover:bg-gray-100"
                   >
                     +
                   </button>
                   <button 
                     onClick={() => onRemoveItem?.(item.id)}
-                    className="w-6 h-6 flex items-center justify-center text-xs border border-red-300 text-red-600 rounded"
+                    className="w-6 h-6 flex items-center justify-center text-xs border border-red-300 text-[#b91d08] hover:bg-red-50 rounded"
                   >
                     ×
                   </button>
@@ -653,8 +657,8 @@ const OrderSummarySidebar: React.FC<OrderSummaryProps> = ({
                     onClick={() => onUpdateDeliveryOption?.(item.id, 'home')}
                     className={`flex-1 px-2 py-1 text-xs rounded border ${
                       item.deliveryOption === 'home' 
-                        ? 'bg-blue-600 text-white border-blue-600' 
-                        : 'bg-white text-gray-700 border-gray-300'
+                        ? 'bg-[#b91d08] text-white border-[#b91d08]' 
+                        : 'bg-white text-gray-700 border-gray-300 hover:border-[#b91d08]'
                     }`}
                   >
                     🚚 Home
@@ -663,8 +667,8 @@ const OrderSummarySidebar: React.FC<OrderSummaryProps> = ({
                     onClick={() => onUpdateDeliveryOption?.(item.id, 'store')}
                     className={`flex-1 px-2 py-1 text-xs rounded border ${
                       item.deliveryOption === 'store' 
-                        ? 'bg-green-600 text-white border-green-600' 
-                        : 'bg-white text-gray-700 border-gray-300'
+                        ? 'bg-blue-600 text-white border-blue-600' 
+                        : 'bg-white text-gray-700 border-gray-300 hover:border-blue-600'
                     }`}
                   >
                     🏪 Store
@@ -678,7 +682,7 @@ const OrderSummarySidebar: React.FC<OrderSummaryProps> = ({
                       const store = storeLocations.find(s => s.id === e.target.value);
                       if (store) onUpdateSelectedStore?.(item.id, store);
                     }}
-                    className="w-full border border-gray-300 rounded px-2 py-1 text-xs"
+                    className="w-full border border-gray-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-[#b91d08] focus:border-[#b91d08]"
                   >
                     {storeLocations.map((store: { id: string; name: string }) => (
                       <option key={store.id} value={store.id}>
@@ -695,21 +699,21 @@ const OrderSummarySidebar: React.FC<OrderSummaryProps> = ({
 
       {/* Totals */}
       <div className="border-t border-gray-200 pt-4 space-y-2">
-        <div className="flex justify-between text-gray-600">
+        <div className="flex justify-between text-gray-700">
           <span>Subtotal</span>
-          <span>${subtotal.toFixed(2)}</span>
+          <span className="font-medium text-gray-900">${subtotal.toFixed(2)}</span>
         </div>
-        <div className="flex justify-between text-gray-600">
+        <div className="flex justify-between text-gray-700">
           <span>Shipping</span>
-          <span>${shipping.toFixed(2)}</span>
+          <span className="font-medium text-gray-900">${shipping.toFixed(2)}</span>
         </div>
-        <div className="flex justify-between text-gray-600">
+        <div className="flex justify-between text-gray-700">
           <span>Tax (13%)</span>
-          <span>${tax.toFixed(2)}</span>
+          <span className="font-medium text-gray-900">${tax.toFixed(2)}</span>
         </div>
-        <div className="flex justify-between font-semibold text-lg border-t border-gray-200 pt-3">
-          <span>Total</span>
-          <span>${total.toFixed(2)}</span>
+        <div className="flex justify-between font-bold text-lg border-t border-gray-200 pt-3">
+          <span className="text-gray-900">Total</span>
+          <span className="text-[#b91d08]">${total.toFixed(2)}</span>
         </div>
       </div>
     </div>
